@@ -123,6 +123,7 @@ main{position:relative;z-index:1}
 .scroll-cue::after{content:"";width:1px;height:70px;background:linear-gradient(var(--gold),transparent);animation:cue 2s var(--ease) infinite}
 @keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 @media (max-width:860px) and (orientation:portrait){.hero{padding-top:38svh;justify-content:flex-start}}
+@media (min-width:561px) and (max-width:860px) and (orientation:portrait){.hero{padding-top:46svh}}
 @media (max-width:860px){
   .hero{justify-content:flex-end}.hero .top{position:static;margin-bottom:22px}.hero h1.h-xl{font-size:clamp(40px,12.2vw,96px)}
   .hero .foot{grid-template-columns:1fr}.hero .cta{justify-content:flex-start}
