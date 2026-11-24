@@ -155,8 +155,8 @@ main{position:relative;z-index:1}
 .services{padding:clamp(80px,10vw,160px) 0}
 .services .head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(40px,5vw,72px)}
 .services .layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(24px,4vw,64px)}
-.services .spacer{position:relative;min-height:200px}
-.services .detail{position:sticky;top:30vh;display:flex;flex-direction:column;gap:20px;max-width:440px}
+.services .spacer{position:relative;min-height:200px;padding-top:34vh}
+.services .detail{position:sticky;top:52vh;display:flex;flex-direction:column;gap:20px;max-width:440px}
 .services .detail .num{font-size:clamp(90px,12vw,200px);font-weight:800;letter-spacing:-.06em;line-height:.8;color:transparent;-webkit-text-stroke:1.5px var(--gold)}
 .services .detail p{margin:0;font-size:clamp(17px,1.4vw,21px);line-height:1.45;color:var(--muted-2)}
 .tags{display:flex;flex-wrap:wrap;gap:8px}
@@ -172,16 +172,16 @@ main{position:relative;z-index:1}
 .svc.on .go{background:var(--gold);border-color:var(--gold);color:var(--noctis);transform:rotate(-45deg)}
 @media (hover:hover){.svc:hover::before{transform:scaleY(1)}.svc:hover .t,.svc:hover .n{color:var(--noctis)}.svc:hover .go{background:var(--noctis);border-color:var(--noctis);color:var(--gold)}}
 .svc{isolation:isolate}
-@media (max-width:860px){.services .layout{grid-template-columns:1fr}.services .detail{position:relative;top:0}.services .spacer{min-height:0}}
+@media (max-width:860px){.services .layout{grid-template-columns:1fr}.services .detail{position:relative;top:0}.services .spacer{min-height:0;padding-top:0}}
 
 /* ---------- Work (horizontal) ---------- */
 .work{position:relative}
 .work .pin{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
-.work .head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(28px,3vw,48px)}
+.work .pin{padding-top:70px}.work .head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(28px,3vw,48px)}
 .work .prog{width:min(280px,40vw);height:2px;background:rgba(255,255,255,.16);position:relative}
 .work .prog i{position:absolute;inset:0;background:var(--gold);transform:scaleX(0);transform-origin:left}
 .track{display:flex;gap:clamp(16px,2vw,32px);padding:0 var(--pad);will-change:transform}
-.card{flex:none;width:clamp(280px,36vw,560px);perspective:1000px}
+.card{flex:none;width:clamp(240px,min(34vw,calc((100vh - 330px)*.8)),520px);perspective:1000px}
 .card .in{position:relative;transform-style:preserve-3d;transition:transform .6s var(--ease)}
 .card .img{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--noctis-3);border-radius:4px}
 .card .img img,.card .img .art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.15);transition:transform 1.2s var(--ease)}
@@ -333,7 +333,7 @@ footer a:hover{color:var(--gold)}
       <div class="wrap head">
         <div style="display:flex;flex-direction:column;gap:20px">
           <span class="label"><b>03</b> Selected work</span>
-          <h2 class="h-lg">Proof, <span class="gold">not</span><br>promises.</h2>
+          <h2 class="h-lg" style="font-size:clamp(40px,5.4vw,88px)">Proof, <span class="gold">not</span><br>promises.</h2>
         </div>
         <div class="prog"><i id="workProg"></i></div>
       </div>
@@ -611,13 +611,13 @@ function logoPose(b){return{p:[(b.col?1:-1)*(BW/2+GX/2),(1-b.row)*GY,0],r:[0,0,0
 const STATES=[
   // 0 hero: logo assembled, right side
   (b,t)=>{const L=logoPose(b);const mb=mobile();return{p:[L.p[0],L.p[1],L.p[2]],r:[0,0,0],s:1,
-     g:{p:mb?[0,1.6,-2]:[3.9,.55,0],r:[.18,-.42,0],s:mb?.62:.92}}},
+     g:{p:mb?[0,1.6,-2]:[3.55,.45,0],r:[.18,-.42,0],s:mb?.62:.8}}},
   // 1 manifesto: scattered
   (b,t)=>({p:b.scatter.p,r:[b.scatter.r[0]+t*.15,b.scatter.r[1]+t*.1,b.scatter.r[2]],s:.55,g:{p:[0,0,0],r:[0,0,0],s:1}}),
   // 2 services: six vertical pillars
   (b,t)=>{const i=bars.indexOf(b),a=window.BZ.activeService===i,mb=mobile();
      return{p:[(i-2.5)*1.35,a?.55:-.15,a?1:0],r:[0,a?t*.8:.35,Math.PI/2],s:a?1:.82,
-       g:{p:mb?[0,2.4,-3]:[-4.4,-.2,0],r:[.12,.45,0],s:mb?.5:.72}}},
+       g:{p:mb?[0,2.4,-3]:[-4.5,1.75,0],r:[.1,.4,0],s:mb?.5:.6}}},
   // 3 work: orbiting ring
   (b,t)=>{const i=bars.indexOf(b),a=i/6*Math.PI*2+t*.35;
      return{p:[Math.cos(a)*3.6,Math.sin(t*.8+i)*.25,Math.sin(a)*3.6],r:[0,-a+Math.PI/2,.0],s:.7,g:{p:[0,-2.6,-4],r:[.35,0,0],s:1}}},
