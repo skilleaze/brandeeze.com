@@ -1,0 +1,25 @@
+:root{
+/* Spacing scale */
+--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;--space-8:64px;--space-9:96px;--space-10:128px;
+/* Grid — Brand Book §05 */
+--grid-columns:12; /* @kind other */
+--grid-gutter:16px;
+--grid-margin:clamp(24px,5vw,64px);
+--container-max:1280px;
+/* Lines & corners — "Keep corners square and rules at 2 px" */
+--rule-width:2px;
+--hairline:1px;
+--radius:0;
+/* Elevation — the brand uses none */
+--shadow:none;
+/* Control sizes */
+--control-sm:32px;--control-md:44px;--control-lg:56px;
+/* Monogram construction (x = bar height) */
+--bars-gap:0.7; /* @kind other */
+--bars-width:3.1; /* @kind other */
+--bars-space:0.5; /* @kind other */
+/* Motion — brand book defines none; keep it quiet */
+--ease-standard:cubic-bezier(.2,0,0,1); /* @kind other */
+--duration-fast:120ms; /* @kind other */
+--duration-base:200ms; /* @kind other */
+}

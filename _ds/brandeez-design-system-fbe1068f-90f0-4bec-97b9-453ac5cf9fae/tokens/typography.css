@@ -1,0 +1,31 @@
+:root{
+--font-sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+--weight-regular:400;--weight-semibold:600;--weight-bold:700;--weight-extrabold:800;
+
+/* Brand book scale (1920-wide artboards, decks, posters) */
+--type-display-size:120px;--type-display-lh:1;--type-display-weight:800;
+--type-title-size:80px;--type-title-lh:1;--type-title-weight:800;
+--type-heading-size:44px;--type-heading-lh:1.1;--type-heading-weight:600;
+--type-body-size:28px;--type-body-lh:1.35;--type-body-weight:400;
+--type-label-size:24px;--type-label-lh:1.2;--type-label-weight:600;--type-label-tracking:0.1em;
+
+/* Screen scale (web / app UI) — same ratios, screen sizes */
+--text-display:clamp(56px,8vw,112px);
+--text-title:clamp(36px,4.6vw,64px);
+--text-h1:40px;
+--text-h2:32px;
+--text-h3:24px;
+--text-h4:20px;
+--text-lead:20px;
+--text-body:16px;
+--text-small:14px;
+--text-caption:12px;
+--text-label:12px;
+--lh-tight:1; /* @kind font */
+--lh-snug:1.1; /* @kind font */
+--lh-body:1.35; /* @kind font */
+--lh-relaxed:1.5; /* @kind font */
+--tracking-display:-0.02em;
+--tracking-heading:-0.01em;
+--tracking-label:0.1em;
+}

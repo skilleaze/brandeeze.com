@@ -1,0 +1,6 @@
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{margin:0;font-family:var(--font-sans);font-size:var(--text-body);line-height:var(--lh-body);color:var(--text-primary);background:var(--surface-page)}
+a{color:var(--text-primary);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px;text-decoration-color:var(--bz-marigold)}
+a:hover{color:var(--bz-marigold-700)}
+::selection{background:var(--bz-marigold);color:var(--bz-noctis)}
+:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Brandeeze | Brands people choose</title>
+<link rel="stylesheet" href="_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/tokens/colors.css">
+<link rel="stylesheet" href="_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/tokens/typography.css">
+<link rel="stylesheet" href="_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/tokens/base.css">
+<link rel="stylesheet" href="_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/styles.css">
+<script src="_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#1F2235;font-family:"Archivo","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:hover{color:#E3A419}
+@keyframes bz-word{from{transform:translateY(60%);opacity:0}to{transform:none;opacity:1}}
+</style>
+</helmet>
+
+<div style="font-family: var(--font-sans); color: var(--text-primary); background: var(--bz-ground);">
+{{ intro }}
+
+<nav style="position: sticky; top: 0; z-index: 20; background: var(--bz-noctis); color: var(--bz-white); border-bottom: 1px solid var(--rule-on-inverse);">
+  <div style="max-width: 1440px; margin: 0 auto; padding: 0 clamp(20px,4vw,56px); height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+    <a href="Home.dc.html" aria-label="Brandeeze home" style="display: flex;">
+      <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Logo" scheme="on-dark" height="18" hint-size="156px,18px"></x-import>
+    </a>
+    <div style="display: flex; align-items: center; gap: clamp(16px,3vw,40px); font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">
+      <a href="#services">Services</a>
+      <a href="Work.dc.html">Work</a>
+      <a href="#process">Process</a>
+      <a href="Contact.dc.html" style="display: flex; align-items: center; gap: 8px; padding-bottom: 4px; border-bottom: 2px solid var(--bz-marigold);">Start a project</a>
+    </div>
+  </div>
+</nav>
+
+<header style="background: var(--bz-noctis); color: var(--bz-white); min-height: calc(100vh - 72px); display: flex; flex-direction: column;">
+  <div style="max-width: 1440px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: clamp(32px,5vw,64px) clamp(20px,4vw,56px) 0; display: flex; justify-content: space-between; align-items: baseline; gap: 24px; flex-wrap: wrap;">
+    <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.SectionLabel" inverse="{{ true }}" tone="muted" hint-size="260px,16px">Creative agency · Worldwide</x-import>
+    <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-on-inverse-secondary);">{{ indexLabel }}</span>
+  </div>
+
+  <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 1440px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: clamp(40px,6vw,88px) clamp(20px,4vw,56px);">
+    <h1 style="margin: 0; font-size: clamp(52px,9.2vw,148px); line-height: 0.9; font-weight: 800; letter-spacing: -0.035em; text-transform: uppercase;">
+      <span style="display: block;">We build brands</span>
+      <span style="display: block;">people</span>
+      <span style="display: block; overflow: hidden; color: var(--bz-marigold); min-height: 0.95em;">{{ word }}</span>
+    </h1>
+  </div>
+
+  <div onMouseLeave="{{ clearHover }}" style="max-width: 1440px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 0 clamp(20px,4vw,56px) clamp(28px,4vw,48px); display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0 clamp(8px,1.6vw,24px);">
+    <sc-for list="{{ heroIndex }}" as="s" hint-placeholder-count="6">
+      <a href="{{ s.href }}" onMouseEnter="{{ s.hover }}" style="display: flex; flex-direction: column; gap: 14px; padding: 0 0 8px; cursor: pointer; opacity: {{ s.opacity }}; transition: opacity .4s;">
+        <span style="position: relative; display: block; height: 6px; background: var(--rule-on-inverse);">
+          <span style="position: absolute; left: 0; top: 0; bottom: 0; width: {{ s.fill }}; background: var(--bz-marigold); transition: width {{ s.dur }} linear;"></span>
+        </span>
+        <span style="display: flex; gap: 4px 10px; align-items: baseline; flex-wrap: wrap;">
+          <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: var(--bz-marigold);">{{ s.num }}</span>
+          <span style="font-size: clamp(12px,1.2vw,15px); font-weight: 600; color: var(--bz-white); text-wrap: balance;">{{ s.name }}</span>
+        </span>
+      </a>
+    </sc-for>
+  </div>
+</header>
+
+<section data-reveal="" style="background: var(--bz-ground);">
+  <div style="max-width: 1440px; margin: 0 auto; padding: clamp(88px,12vw,184px) clamp(20px,4vw,56px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: clamp(24px,4vw,64px);">
+    <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.SectionLabel" number="01" hint-size="160px,16px">Who we are</x-import>
+    <div style="grid-column: span 3; min-width: 0; display: flex; flex-direction: column; gap: clamp(40px,5vw,72px);">
+      <p style="margin: 0; font-size: clamp(30px,4vw,64px); line-height: 1.08; font-weight: 600; letter-spacing: -0.02em; text-wrap: pretty;">Most agencies do one thing well. We do the six things a brand needs to grow, <span style="color: var(--text-tertiary);">with one team, one strategy and one standard of craft.</span></p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 0 32px; border-top: 2px solid var(--rule-strong);">
+        <div style="display: flex; justify-content: space-between; padding: 18px 0; border-bottom: 1px solid var(--rule);"><span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary);">Services</span><span style="font-weight: 700;">Six</span></div>
+        <div style="display: flex; justify-content: space-between; padding: 18px 0; border-bottom: 1px solid var(--rule);"><span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary);">Handoffs</span><span style="font-weight: 700;">Zero</span></div>
+        <div style="display: flex; justify-content: space-between; padding: 18px 0; border-bottom: 1px solid var(--rule);"><span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary);">Clients</span><span style="font-weight: 700;">Worldwide</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services" data-reveal="" style="background: var(--bz-white); border-top: 1px solid var(--rule-subtle);">
+  <div style="max-width: 1440px; margin: 0 auto; padding: clamp(72px,10vw,152px) clamp(20px,4vw,56px);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: clamp(24px,4vw,64px); margin-bottom: clamp(40px,5vw,72px);">
+      <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.SectionLabel" number="02" hint-size="160px,16px">What we do</x-import>
+      <h2 style="grid-column: span 3; margin: 0; font-size: clamp(40px,6vw,96px); line-height: 0.95; font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase;">Six disciplines,<br>one direction.</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: clamp(32px,5vw,80px); align-items: stretch;">
+      <div style="display: flex; flex-direction: column; border-top: 2px solid var(--rule-strong);">
+        <sc-for list="{{ services }}" as="s" hint-placeholder-count="6">
+          <div onMouseEnter="{{ s.pick }}" onClick="{{ s.go }}" style="display: grid; grid-template-columns: 48px minmax(0,1fr) auto; align-items: center; gap: 16px; padding: clamp(16px,2vw,24px) 0; border-bottom: 1px solid var(--rule); cursor: pointer; color: {{ s.color }}; transition: color .3s;">
+            <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-label);">{{ s.num }}</span>
+            <span style="font-size: clamp(24px,2.8vw,40px); line-height: 1; font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase;">{{ s.name }}</span>
+            <span style="height: 10px; width: {{ s.barW }}; background: var(--bz-marigold); transition: width .5s cubic-bezier(.2,.7,.1,1);"></span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 28px; min-width: 0;">
+        <div style="position: relative; aspect-ratio: 4 / 3; background: var(--bz-neutral-200);">
+          <sc-for list="{{ services }}" as="s" hint-placeholder-count="1">
+            <div style="position: absolute; inset: 0; opacity: {{ s.layer }}; pointer-events: {{ s.pe }}; transition: opacity .5s;">
+              <image-slot id="{{ s.slot }}" shape="rect" placeholder="{{ s.ph }}" style="width: 100%; height: 100%;"></image-slot>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display: grid; grid-template-columns: 32px minmax(0,1fr); gap: 20px;">
+          <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Icon" name="{{ cur.icon }}" size="28" strokeWidth="1.5" hint-size="28px,28px"></x-import>
+          <div style="display: flex; flex-direction: column; gap: 18px;">
+            <p style="margin: 0; font-size: clamp(18px,1.6vw,22px); line-height: 1.35; text-wrap: pretty;">{{ cur.desc }}</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <sc-for list="{{ cur.tags }}" as="t" hint-placeholder-count="4">
+                <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Tag" hint-size="100px,32px">{{ t }}</x-import>
+              </sc-for>
+            </div>
+            <a href="{{ curHref }}" style="align-self: flex-start; display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding-bottom: 4px; border-bottom: 2px solid var(--bz-marigold);">Explore {{ cur.name }} <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Icon" name="arrow-right" size="16" hint-size="16px,16px"></x-import></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-reveal="" style="background: var(--bz-noctis); color: var(--bz-white);">
+  <div style="max-width: 1440px; margin: 0 auto; padding: clamp(72px,10vw,152px) 0 clamp(72px,10vw,152px) clamp(20px,4vw,56px);">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; padding-right: clamp(20px,4vw,56px); margin-bottom: clamp(40px,5vw,64px);">
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.SectionLabel" number="03" inverse="{{ true }}" hint-size="160px,16px">Selected work</x-import>
+        <h2 style="margin: 0; font-size: clamp(40px,6vw,96px); line-height: 0.95; font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase;">Proof,<br>not promises.</h2>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button onClick="{{ prev }}" aria-label="Previous" style="width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; background: transparent; color: var(--bz-white); border: 1px solid var(--rule-on-inverse); border-radius: 0; cursor: pointer; transform: scaleX(-1);"><x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Icon" name="arrow-right" size="20" hint-size="20px,20px"></x-import></button>
+        <button onClick="{{ next }}" aria-label="Next" style="width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--bz-marigold); color: var(--bz-noctis); border: 0; border-radius: 0; cursor: pointer;"><x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Icon" name="arrow-right" size="20" hint-size="20px,20px"></x-import></button>
+        <a href="Work.dc.html" style="margin-left: 16px; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding-bottom: 4px; border-bottom: 2px solid var(--bz-marigold);">All work</a>
+      </div>
+    </div>
+    <div ref="{{ scrollRef }}" style="display: flex; gap: clamp(16px,2vw,28px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-right: clamp(20px,4vw,56px);">
+      <sc-for list="{{ work }}" as="w" hint-placeholder-count="3">
+        <a href="Work.dc.html" style="flex: none; width: min(78vw, 600px); scroll-snap-align: start; display: flex; flex-direction: column; gap: 18px;">
+          <div style="aspect-ratio: 5 / 4; background: #2E3250;">
+            <image-slot id="{{ w.slot }}" shape="rect" placeholder="Drop project image" style="width: 100%; height: 100%;"></image-slot>
+          </div>
+          <div style="display: grid; grid-template-columns: 40px minmax(0,1fr); gap: 12px; border-top: 1px solid var(--rule-on-inverse); padding-top: 16px;">
+            <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: var(--bz-marigold);">{{ w.num }}</span>
+            <span style="display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: baseline;">
+              <span style="font-size: clamp(20px,1.8vw,26px); font-weight: 600;">{{ w.name }}</span>
+              <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-on-inverse-secondary);">{{ w.tags }}</span>
+            </span>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="process" data-reveal="" style="background: var(--bz-ground);">
+  <div style="max-width: 1440px; margin: 0 auto; padding: clamp(72px,10vw,152px) clamp(20px,4vw,56px);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: clamp(24px,4vw,64px); margin-bottom: clamp(40px,5vw,72px);">
+      <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.SectionLabel" number="04" hint-size="160px,16px">How we work</x-import>
+      <h2 style="grid-column: span 3; margin: 0; font-size: clamp(40px,6vw,96px); line-height: 0.95; font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase;">Four steps.<br>No guesswork.</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: clamp(24px,3vw,40px);">
+      <div style="display: flex; flex-direction: column; gap: 16px; border-top: 1px solid var(--rule-strong); padding-top: 24px; position: relative;">
+        <span style="position: absolute; top: -3px; left: 0; height: 6px; width: 25%; background: var(--bz-marigold);"></span>
+        <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-label);">01</span>
+        <h3 style="margin: 0; font-size: 26px; font-weight: 800; text-transform: uppercase;">Discover</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.35; color: var(--text-secondary);">We audit your market, competitors and numbers, and talk to the people who buy from you.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 16px; border-top: 1px solid var(--rule-strong); padding-top: 24px; position: relative;">
+        <span style="position: absolute; top: -3px; left: 0; height: 6px; width: 50%; background: var(--bz-marigold);"></span>
+        <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-label);">02</span>
+        <h3 style="margin: 0; font-size: 26px; font-weight: 800; text-transform: uppercase;">Define</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.35; color: var(--text-secondary);">One strategy, one positioning and one plan that every service works from.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 16px; border-top: 1px solid var(--rule-strong); padding-top: 24px; position: relative;">
+        <span style="position: absolute; top: -3px; left: 0; height: 6px; width: 75%; background: var(--bz-marigold);"></span>
+        <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-label);">03</span>
+        <h3 style="margin: 0; font-size: 26px; font-weight: 800; text-transform: uppercase;">Create</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.35; color: var(--text-secondary);">Identity, content, campaigns and code, made in parallel by one team.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 16px; border-top: 1px solid var(--rule-strong); padding-top: 24px; position: relative;">
+        <span style="position: absolute; top: -3px; left: 0; height: 6px; width: 100%; background: var(--bz-marigold);"></span>
+        <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-label);">04</span>
+        <h3 style="margin: 0; font-size: 26px; font-weight: 800; text-transform: uppercase;">Grow</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.35; color: var(--text-secondary);">We launch, measure and improve every month, with reporting you can read in a minute.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background: var(--bz-noctis); color: var(--bz-white);">
+  <div style="max-width: 1440px; margin: 0 auto; padding: clamp(88px,12vw,184px) clamp(20px,4vw,56px) clamp(56px,7vw,96px); display: flex; flex-direction: column; gap: clamp(48px,6vw,96px);">
+    <div style="display: flex; flex-direction: column; gap: 28px;">
+      <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.SectionLabel" number="05" inverse="{{ true }}" hint-size="160px,16px">Next</x-import>
+      <h2 style="margin: 0; font-size: clamp(52px,9.2vw,148px); line-height: 0.9; font-weight: 800; letter-spacing: -0.035em; text-transform: uppercase;">Your brand<br>is <span style="color: var(--bz-marigold);">next.</span></h2>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; border-top: 1px solid var(--rule-on-inverse); padding-top: 28px;">
+      <a href="mailto:hello@brandeeze.com" style="font-size: clamp(24px,3vw,44px); font-weight: 600; letter-spacing: -0.01em;">hello@brandeeze.com</a>
+      <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Button" variant="primary" size="lg" onClick="{{ goContact }}" hint-size="200px,56px">Start a project</x-import>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 24px; border-top: 1px solid var(--rule-on-inverse); padding-top: 28px; font-size: 14px; color: var(--text-on-inverse-secondary);">
+      <span style="font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; font-size: 12px;">© 2026 Brandeeze</span>
+      <span style="display: flex; gap: 24px;"><a href="Work.dc.html">Work</a><a href="Contact.dc.html">Contact</a></span>
+      <span>Branding, content, performance, social, automation and software.</span>
+    </div>
+  </div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;intro&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Intro&quot;},&quot;introEveryVisit&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Intro&quot;},&quot;heroCycle&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;motionSpeed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.5,&quot;max&quot;:2,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;×&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;reveal&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
+const SERVICES = [
+  { name: "Branding", verb: "remember.", icon: "pen-tool", desc: "Strategy, naming and identity systems that make you recognisable at a glance and consistent everywhere.", tags: ["Brand strategy", "Naming", "Identity", "Brand book", "Packaging"] },
+  { name: "Video & content", verb: "watch.", icon: "clapperboard", desc: "Films, motion and photography made for launches, feeds and screens of every size.", tags: ["Brand films", "Product shoots", "Motion", "Reels"] },
+  { name: "Performance", verb: "buy from.", icon: "trending-up", desc: "Paid media measured on revenue, not reach. We test fast, cut waste and scale what sells.", tags: ["Meta & Google Ads", "Funnels", "CRO", "Analytics"] },
+  { name: "Social media", verb: "follow.", icon: "share-2", desc: "Always-on channels with a voice people follow, plan for and share.", tags: ["Strategy", "Content calendar", "Community", "Creators"] },
+  { name: "Automation", verb: "rely on.", icon: "workflow", desc: "CRM, workflows and AI agents that take busywork off your sales and operations teams.", tags: ["CRM setup", "WhatsApp flows", "Email", "AI agents"] },
+  { name: "Web & software", verb: "choose.", icon: "code", desc: "Websites, stores and apps engineered to load fast, convert and scale with you.", tags: ["Websites", "E-commerce", "Web apps", "SEO"] }
+];
+const WORK = [["Project name", "Branding · Web"], ["Project name", "Video · Social"], ["Project name", "Performance"], ["Project name", "Automation · Software"], ["Project name", "Branding · Packaging"]];
+
+class Component extends DCLogic {
+  state = { cycle: 0, hover: null, svc: 0, tick: 0, phase: 0 };
+  scrollRef = React.createRef();
+  runIntro() {
+    let seen = false;
+    try { seen = sessionStorage.getItem("bz-intro-seen") === "1"; } catch (e) {}
+    if (this.props.intro === false || (seen && this.props.introEveryVisit === false)) { this.setState({ phase: 4 }); return; }
+    try { sessionStorage.setItem("bz-intro-seen", "1"); } catch (e) {}
+    const sp = this.props.motionSpeed ?? 1;
+    document.body.style.overflow = "hidden";
+    this.it = [[60, 1], [1500, 2], [2350, 3], [3300, 4]].map(([t, p]) => setTimeout(() => {
+      this.setState({ phase: p });
+      if (p === 4) document.body.style.overflow = "";
+    }, t * sp));
+  }
+  skipIntro() { (this.it || []).forEach(clearTimeout); document.body.style.overflow = ""; this.setState({ phase: 4 }); }
+  introEl() {
+    const { phase } = this.state;
+    if (phase >= 4) return null;
+    const h = React.createElement, sp = this.props.motionSpeed ?? 1;
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const W = Math.min(vw * 0.32, 240), x = W / 6.7, bw = 3.1 * x;
+    const ox = (vw - W) / 2, oy = (vh - 4.4 * x) / 2;
+    const ease = "cubic-bezier(.76,0,.24,1)";
+    const bars = [0, 1, 2, 3, 4, 5].map(i => {
+      const col = i < 3 ? 0 : 1, row = i % 3, stripe = row * 2 + col;
+      const mono = { left: ox + col * (bw + 0.5 * x), top: oy + row * 1.7 * x, width: bw, height: x };
+      const full = { left: 0, top: stripe * vh / 6, width: vw, height: Math.ceil(vh / 6) + 1 };
+      const r = phase >= 2 ? full : mono;
+      let tf = "scaleX(0)", origin = "left center", tr = `transform ${0.9 * sp}s cubic-bezier(.2,.7,.1,1) ${(0.1 + i * 0.1) * sp}s`;
+      if (phase >= 1) tf = "scaleX(1)";
+      if (phase >= 2) tr = `left ${0.85 * sp}s ${ease} ${stripe * 0.04 * sp}s, top ${0.85 * sp}s ${ease} ${stripe * 0.04 * sp}s, width ${0.85 * sp}s ${ease} ${stripe * 0.04 * sp}s, height ${0.85 * sp}s ${ease} ${stripe * 0.04 * sp}s`;
+      if (phase >= 3) { tf = "scaleY(0)"; origin = "center top"; tr = `transform ${0.75 * sp}s ${ease} ${stripe * 0.06 * sp}s`; }
+      return h("div", { key: i, style: { position: "absolute", left: r.left, top: r.top, width: r.width, height: r.height, background: "#E3A419", transform: tf, transformOrigin: origin, transition: tr } });
+    });
+    return h("div", { onClick: () => this.skipIntro(), "aria-hidden": true, style: { position: "fixed", inset: 0, zIndex: 100, cursor: "pointer",
+      background: phase >= 2 ? "transparent" : "#1F2235", transition: `background 0s linear ${0.9 * sp}s` } }, bars);
+  }
+  componentDidMount() {
+    this.runIntro();
+    this.armed = setTimeout(() => this.setState({ tick: 1 }), 60);
+    this.iv = setInterval(() => {
+      if (this.props.heroCycle === false || this.state.hover != null) return;
+      this.setState(s => ({ cycle: (s.cycle + 1) % 6, tick: 0 }));
+      setTimeout(() => this.setState({ tick: 1 }), 40);
+    }, this.period());
+    if (this.props.reveal !== false && "IntersectionObserver" in window) {
+      const els = document.querySelectorAll("[data-reveal]");
+      this.io = new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting) { e.target.style.opacity = 1; e.target.style.transform = "none"; this.io.unobserve(e.target); }
+      }), { threshold: 0.12 });
+      els.forEach(el => { el.style.opacity = 0; el.style.transform = "translateY(32px)"; el.style.transition = "opacity .9s ease, transform .9s cubic-bezier(.2,.7,.1,1)"; this.io.observe(el); });
+    }
+  }
+  period() { return 2800 * (this.props.motionSpeed ?? 1); }
+  componentWillUnmount() { (this.it || []).forEach(clearTimeout); document.body.style.overflow = ""; clearTimeout(this.armed); clearInterval(this.iv); this.io && this.io.disconnect(); }
+  renderVals() {
+    const h = React.createElement;
+    const { cycle, hover, svc, tick } = this.state;
+    const active = hover != null ? hover : cycle;
+    const S = SERVICES[active];
+    const word = h("span", { key: active, style: { display: "inline-block", animation: "bz-word .7s cubic-bezier(.2,.7,.1,1) both" } }, S.verb);
+    const per = this.period();
+    const heroIndex = SERVICES.map((s, i) => ({
+      num: "0" + (i + 1), name: s.name, opacity: i === active ? 1 : 0.5,
+      fill: i === active ? (hover != null ? "100%" : tick ? "100%" : "0%") : "0%",
+      dur: i === active && hover == null && tick ? per / 1000 + "s" : "0.3s",
+      hover: () => this.setState({ hover: i }),
+      href: "Service.dc.html?s=" + ["branding", "video", "performance", "social", "automation", "web"][i]
+    }));
+    const services = SERVICES.map((s, i) => ({
+      num: "0" + (i + 1), name: s.name, barW: svc === i ? "48px" : "0px",
+      color: svc === i ? "var(--text-primary)" : "var(--text-tertiary)",
+      slot: "svc-" + (i + 1), ph: "Drop a " + s.name.toLowerCase() + " image",
+      layer: svc === i ? 1 : 0, pe: svc === i ? "auto" : "none",
+      pick: () => this.setState({ svc: i }),
+      go: () => { window.location.href = "Service.dc.html?s=" + ["branding", "video", "performance", "social", "automation", "web"][i]; }
+    }));
+    const scroll = d => { const el = this.scrollRef.current; if (el) el.scrollBy({ left: d * Math.min(el.clientWidth * 0.8, 620), behavior: "smooth" }); };
+    return {
+      intro: this.introEl(),
+      word, heroIndex, services, cur: SERVICES[svc],
+      curHref: "Service.dc.html?s=" + ["branding", "video", "performance", "social", "automation", "web"][svc],
+      indexLabel: "0" + (active + 1) + " / 06 · " + S.name,
+      work: WORK.map((w, i) => ({ name: w[0], tags: w[1], num: "0" + (i + 1), slot: "home-case-" + (i + 1) })),
+      scrollRef: this.scrollRef, prev: () => scroll(-1), next: () => scroll(1),
+      clearHover: () => this.setState({ hover: null, tick: 0 }, () => setTimeout(() => this.setState({ tick: 1 }), 40)),
+      goContact: () => { window.location.href = "Contact.dc.html"; }
+    };
+  }
+}
+</script>
+</body>
+</html>

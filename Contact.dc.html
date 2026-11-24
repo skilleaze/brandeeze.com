@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Contact | Brandeeze</title>
+<link rel="stylesheet" href="_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/tokens/colors.css">
+<link rel="stylesheet" href="_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/tokens/typography.css">
+<link rel="stylesheet" href="_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/tokens/base.css">
+<link rel="stylesheet" href="_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/styles.css">
+<script src="_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/_ds_bundle.js"></script>
+<style>
+body{margin:0;background:#1F2235;font-family:"Archivo","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:hover{color:#E3A419}
+</style>
+</helmet>
+
+<div style="font-family: var(--font-sans); color: var(--text-primary); background: var(--bz-ground); min-height: 100vh; display: flex; flex-direction: column;">
+
+<nav style="position: sticky; top: 0; z-index: 20; background: var(--bz-noctis); color: var(--bz-white); border-bottom: 1px solid var(--rule-on-inverse);">
+  <div style="max-width: 1440px; margin: 0 auto; padding: 0 clamp(20px,4vw,56px); height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+    <a href="Home.dc.html" aria-label="Brandeeze home" style="display: flex;">
+      <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Logo" scheme="on-dark" height="20" hint-size="174px,20px"></x-import>
+    </a>
+    <div style="display: flex; align-items: center; gap: clamp(16px,3vw,40px); font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">
+      <a href="Home.dc.html#services">Services</a>
+      <a href="Work.dc.html">Work</a>
+      <a href="Home.dc.html#process">Process</a>
+      <a href="Contact.dc.html" style="color: var(--bz-marigold);">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main style="flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr));">
+  <div style="background: var(--bz-noctis); color: var(--bz-white); padding: clamp(48px,7vw,112px) clamp(20px,4vw,56px); display: flex; flex-direction: column; justify-content: space-between; gap: 64px;">
+    <div style="display: flex; flex-direction: column; gap: 32px;">
+      <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.SectionLabel" inverse="{{ true }}" hint-size="160px,16px">Contact</x-import>
+      <h1 style="margin: 0; font-size: clamp(64px,9vw,152px); line-height: 0.88; font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase;">Let's<br>build<br>it.</h1>
+      <p style="margin: 0; max-width: 440px; font-size: clamp(18px,1.6vw,22px); line-height: 1.35; color: var(--text-on-inverse-secondary);">Tell us what you're building. We reply within one working day, wherever you are in the world.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; border-top: 1px solid var(--rule-on-inverse);">
+      <a href="mailto:hello@brandeeze.com" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--rule-on-inverse);">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-on-inverse-secondary);">Email</span>
+        <span style="font-size: clamp(18px,2vw,26px); font-weight: 700;">hello@brandeeze.com</span>
+      </a>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--rule-on-inverse);">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-on-inverse-secondary);">Clients</span>
+        <span style="font-size: clamp(18px,2vw,26px); font-weight: 700;">Worldwide</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: clamp(48px,7vw,112px) clamp(20px,4vw,56px); display: flex; flex-direction: column; gap: 40px;">
+    <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-direction: column; gap: 40px; max-width: 640px;">
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.SectionLabel" number="01" hint-size="200px,16px">What do you need?</x-import>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <sc-for list="{{ services }}" as="s" hint-placeholder-count="6">
+              <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Tag" selected="{{ s.selected }}" onClick="{{ s.toggle }}" hint-size="120px,32px">{{ s.label }}</x-import>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.SectionLabel" number="02" hint-size="200px,16px">Budget</x-import>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <sc-for list="{{ budgets }}" as="b" hint-placeholder-count="4">
+              <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Tag" selected="{{ b.selected }}" onClick="{{ b.pick }}" hint-size="120px,32px">{{ b.label }}</x-import>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.SectionLabel" number="03" hint-size="200px,16px">About you</x-import>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 16px;">
+            <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Input" label="Name" onChange="{{ onName }}" placeholder="Your name" hint-size="100%,72px"></x-import>
+            <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Input" label="Email" type="email" onChange="{{ onEmail }}" placeholder="you@company.com" hint-size="100%,72px"></x-import>
+            <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Input" label="Company" onChange="{{ onCompany }}" placeholder="Company name" hint-size="100%,72px"></x-import>
+            <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Input" label="Country" onChange="{{ onCountry }}" placeholder="Where you're based" hint-size="100%,72px"></x-import>
+          </div>
+          <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Input" label="Project" onChange="{{ onProject }}" multiline="{{ true }}" rows="5" placeholder="What are you building, and by when?" hint-size="100%,150px"></x-import>
+        </div>
+        <div style="display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
+          <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Button" variant="secondary" size="lg" onClick="{{ send }}" hint-size="230px,56px">Send brief on WhatsApp</x-import>
+          <span style="font-size: 14px; color: var(--text-secondary);">{{ summary }}</span>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 28px; max-width: 560px; margin: auto 0;">
+        <div style="display: grid; grid-template-columns: 62px 62px; gap: 9px 7px;">
+          <span style="height: 20px; background: var(--bz-marigold);"></span><span style="height: 20px; background: var(--bz-marigold);"></span>
+          <span style="height: 20px; background: var(--bz-marigold);"></span><span style="height: 20px; background: var(--bz-marigold);"></span>
+          <span style="height: 20px; background: var(--bz-marigold);"></span><span style="height: 20px; background: var(--bz-marigold);"></span>
+        </div>
+        <h2 style="margin: 0; font-size: clamp(44px,6vw,88px); line-height: 0.95; font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase;">Brief received.</h2>
+        <p style="margin: 0; font-size: 20px; line-height: 1.35; color: var(--text-secondary);">Thanks! WhatsApp has opened with your brief ready to send. Hit send and someone from the team will reply within one working day. Want to add files? Send them to hello@brandeeze.com.</p>
+        <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Button" variant="outline" size="md" onClick="{{ reset }}" hint-size="160px,44px">Send another</x-import>
+      </div>
+    </sc-if>
+  </div>
+</main>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;whatsappNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;919999999999&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;WhatsApp&quot;}}">
+const SERVICES = ["Branding", "Video & content", "Performance", "Social media", "Automation", "Web & software"];
+const BUDGETS = ["Under $10k", "$10k to $25k", "$25k to $75k", "$75k+"];
+class Component extends DCLogic {
+  state = { picked: (() => { try { const s = new URLSearchParams(window.location.search).get("service"); if (SERVICES.includes(s)) return [s]; } catch (e) {} return ["Branding"]; })(), budget: null, sent: false };
+  f = {};
+  renderVals() {
+    const { picked, budget, sent } = this.state;
+    const n = picked.length;
+    return {
+      services: SERVICES.map(label => ({ label, selected: picked.includes(label),
+        toggle: () => this.setState(s => ({ picked: s.picked.includes(label) ? s.picked.filter(x => x !== label) : [...s.picked, label] })) })),
+      budgets: BUDGETS.map(label => ({ label, selected: budget === label, pick: () => this.setState({ budget: label }) })),
+      summary: n === 0 ? "Pick at least one service" : n === 6 ? "All six bars. Our favourite kind of project." : `${n} of 6 services selected`,
+      sent, notSent: !sent,
+      onName: e => { this.f.name = e.target.value; },
+      onEmail: e => { this.f.email = e.target.value; },
+      onCompany: e => { this.f.company = e.target.value; },
+      onCountry: e => { this.f.country = e.target.value; },
+      onProject: e => { this.f.project = e.target.value; },
+      send: () => {
+        const f = this.f;
+        const msg = ["New brief from brandeeze.com", "",
+          "Name: " + (f.name || "-"), "Email: " + (f.email || "-"), "Company: " + (f.company || "-"), "Country: " + (f.country || "-"),
+          "Services: " + (picked.join(", ") || "-"), "Budget: " + (budget || "-"), "", "Project:", f.project || "-"].join("\n");
+        const num = String(this.props.whatsappNumber ?? "919999999999").replace(/\D/g, "");
+        window.open("https://wa.me/" + num + "?text=" + encodeURIComponent(msg), "_blank");
+        this.setState({ sent: true });
+      },
+      reset: () => this.setState({ sent: false })
+    };
+  }
+}
+</script>
+</body>
+</html>
