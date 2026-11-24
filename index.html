@@ -614,7 +614,7 @@ scene.add(pts);
 const mobile=()=>innerWidth<860;
 const portrait=()=>innerWidth/innerHeight<1;
 const HH=Math.tan(THREE.MathUtils.degToRad(17.5))*15;
-function heroPortrait(){const a=innerWidth/innerHeight,hw=HH*a,s=Math.min(.7,.78*a),w=6.7*s;return{p:[hw-w/2-hw*.1,HH*.52,0],r:[.14,-.3,0],s}}
+function heroPortrait(){const a=innerWidth/innerHeight,hw=HH*a,s=Math.min(.55,.72*a),w=6.7*s;return{p:[hw-w/2-hw*.1,HH*.46,0],r:[.14,-.3,0],s}}
 function logoPose(b){return{p:[(b.col?1:-1)*(BW/2+GX/2),(1-b.row)*GY,0],r:[0,0,0],s:1}}
 const STATES=[
   // 0 hero: logo assembled, right side
