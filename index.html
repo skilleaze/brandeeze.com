@@ -666,7 +666,7 @@ function frame(){
   root.scale.setScalar(lerp(G.A.s,G.B.s,k)*(.6+.4*intro));
   pts.rotation.y=t*.02+f*.4;pts.rotation.x=f*.08;pts.position.y=f*.6;
   camera.position.x+=(mx*.6-camera.position.x)*.04;camera.position.y+=(-my*.4-camera.position.y)*.04;camera.lookAt(0,0,0);
-  if(mobile()){const ss=(a,b,x)=>{x=Math.min(1,Math.max(0,(x-a)/(b-a)));return x*x*(3-2*x)};const bump=ss(.45,1,f)*(1-ss(3.3,3.85,f));canvas.style.opacity=(1-.7*bump).toFixed(3)}else canvas.style.opacity="";
+  if(mobile()){const ss=(a,b,x)=>{x=Math.min(1,Math.max(0,(x-a)/(b-a)));return x*x*(3-2*x)};const bump=ss(.45,1,f)*(1-.25*ss(3.3,3.85,f));canvas.style.opacity=(1-.7*bump).toFixed(3)}else canvas.style.opacity="";
   renderer.render(scene,camera);
   requestAnimationFrame(frame);
 }
