@@ -2,8 +2,106 @@
 // Where the two sources disagree, the muneezahmed.com case-study figures are used.
 const CF = "https://d15k2d11r6t6rl.cloudfront.net/pub/bfra/pxl5qk0l/";
 const P = (o) => o;
-export const CATEGORIES = ["E-commerce growth", "Lead generation", "SEO", "Websites & stores"];
+export const CATEGORIES = ["Branding", "E-commerce growth", "Lead generation", "SEO", "Websites & stores", "Software & automation"];
+export const PROFILE_PDF = "/brandeeze-profile.pdf";
 export const WORK = [
+
+  // ---------------- Branding (from the Brandeeze company profile) ----------------
+  P({ slug: "qyrah", client: "QYRAH", loc: "Dubai, UAE", cc: "AE", ind: "fashion", cat: "Branding", featured: true,
+    headline: "She Envisions: a modest-fashion brand from monogram to unboxing",
+    services: ["Brand identity", "Monogram", "Packaging", "Brand book", "Custom e-commerce"], groups: ["brand", "web"],
+    metrics: [["Q", "Crowned monogram"], ["Full", "Unboxing system"], ["Live", "E-commerce store"]],
+    summary: "QYRAH is a modest-fashion label for abayas. We created the whole identity in deep burgundy and ivory: a crowned Q monogram, a refined serif wordmark and a complete unboxing system of boxes, bags, tissue, seals, cards and tape. Then we built the brand's custom e-commerce store.",
+    objective: "Give a new abaya label a premium identity that feels special from the first post to the moment the box is opened.",
+    strategy: ["Positioning and the She Envisions idea", "Crowned Q monogram and refined serif wordmark", "Burgundy and ivory palette with supporting typography", "Packaging: boxes, bags, tissue, seals, cards and tape", "A brand book with rules for every use", "A custom e-commerce store to sell the collection"],
+    results: ["A complete identity and packaging system ready for launch", "A live brand book at qyrah-brandbook.figma.site", "A custom online store at qyrahabayas.com"],
+    site: "https://www.qyrahabayas.com", brandbook: "https://qyrah-brandbook.figma.site", img: 2, pdf: 5 }),
+  P({ slug: "travlen", client: "Travlen", loc: "Travel brand", cc: "AE", ind: "tourism", cat: "Branding", featured: true,
+    headline: "Endless Discoveries: a travel brand whose V becomes a mountain peak",
+    services: ["Logo", "Symbol", "Brand guidelines", "Stationery"], groups: ["brand"],
+    metrics: [["V", "Peak symbol"], ["3+3", "Vs and ranges"], ["Full", "Logo set"]],
+    summary: "Travlen is a travel brand built around the idea of Endless Discoveries. Its V becomes a mountain peak, constructed from three Vs and three mountain ranges, set in royal purple and sky blue, with a full set of logo versions and stationery.",
+    objective: "Create a travel identity that feels adventurous, trustworthy and instantly recognisable.",
+    strategy: ["The Endless Discoveries brand idea", "A symbol built from three Vs and three mountain ranges", "Royal purple and sky blue palette", "Horizontal, stacked and icon logo versions", "Brand guidelines and stationery"],
+    results: ["A distinctive, ownable symbol", "A flexible logo system for digital and print", "Brand guidelines and a full stationery set"], img: 3, pdf: 6 }),
+  P({ slug: "alia-gold-and-diamonds", client: "Alia Gold & Diamonds", loc: "Fine jewellery", cc: "AE", ind: "retail", cat: "Branding", featured: true,
+    headline: "Elegant jewellery for elegant moments: a monogram born from hand sketches",
+    services: ["Logo", "Monogram", "Packaging", "Bags"], groups: ["brand"],
+    metrics: [["A", "Sculpted monogram"], ["Gold", "Orbiting ring"], ["Voga", "Typeface"]],
+    summary: "Alia Gold & Diamonds is a fine-jewellery brand. A sculpted A orbited by a ring of gold was refined from hand sketches into a monogram that sits as easily on a ring box as on a shopfront, in deep plum, antique gold and pearl.",
+    objective: "Build a premium jewellery identity that works at every scale, from ring box to storefront.",
+    strategy: ["Hand sketches explored into a sculpted A", "A gold ring orbiting the monogram", "Deep plum, antique gold and pearl palette", "Voga typeface for the wordmark", "Packaging and shopping bags"],
+    results: ["A monogram that works from ring box to shopfront", "A complete packaging and bag range"], img: 3, pdf: 9 }),
+  P({ slug: "girafics", client: "Girafics", loc: "Digital marketing agency", cc: "AE", ind: "media", cat: "Branding",
+    headline: "Get spotted: naming and three logo concepts for a digital agency",
+    services: ["Naming", "Mood board", "Logo concepts", "Submarks"], groups: ["brand"],
+    metrics: [["3", "Logo concepts"], ["Name", "Graphics + giraffe"], ["Get spotted", "Tagline"]],
+    summary: "Girafics (graphics + giraffe) is a name we created for a digital marketing agency. The brief asked for a logo with style, uniqueness and a little quirk, built around a giraffe standing for grace, a different perspective and getting spotted.",
+    objective: "Name a new digital agency and explore logo directions with personality.",
+    strategy: ["Naming: graphics + giraffe", "A mood board for the brand's personality", "Concept 1: wordmark with a giraffe-neck A and G submark", "Concept 2: condensed wordmark with a standing-giraffe i", "Concept 3: giraffe silhouette lock-up and submark"],
+    results: ["A memorable, ownable name and tagline: Get spotted", "Three distinct logo directions with submarks"], img: 3, pdf: 7 }),
+  // ---------------- Software & automation ----------------
+  P({ slug: "whatseaze", client: "WhatsEaze", loc: "Our product", cc: "AE", ind: "tech", cat: "Software & automation", featured: true,
+    headline: "Your WhatsApp, answered: an AI assistant built by Brandeeze",
+    services: ["AI agents", "WhatsApp automation", "SaaS product"], groups: ["automation", "web"],
+    metrics: [["24/7", "Replies in seconds"], ["Every", "Lead tracked"], ["Multi", "Number dashboard"]],
+    summary: "WhatsEaze is our own product: an AI assistant that replies to every WhatsApp message in seconds, day and night, and moves each chat towards a sale.",
+    objective: "Make sure no WhatsApp enquiry goes unanswered, and every lead is followed up.",
+    strategy: ["Instant replies at midnight, on weekends and in busy hours", "Each enquiry captured with its status and value", "Follow-up reminders and sequences that bring quiet leads back", "Several WhatsApp numbers managed from one dashboard"],
+    results: ["A live SaaS product at whatseaze.com", "Every message answered and every lead tracked"], site: "https://whatseaze.com", img: 3, pdf: 15 }),
+  P({ slug: "skilleaze-hq", client: "Skilleaze HQ", loc: "India & GCC", cc: "AE", ind: "education", cat: "Software & automation", featured: true,
+    headline: "A custom CRM and ERP that replaced spreadsheets and chat threads",
+    services: ["Custom CRM & ERP", "Web app", "Automation"], groups: ["automation", "web", "data"],
+    metrics: [["1", "App for every team"], ["4", "Role types"], ["2", "Branches"]],
+    summary: "Skilleaze HQ is the custom operations system behind Skilleaze, a career-services company working across India and the GCC. One app replaced spreadsheets and chat threads for every team.",
+    objective: "Give management, operations, sales and experts one system for orders, money, people and marketing.",
+    strategy: ["Orders to delivery: every order with payment, expert, status and turnaround", "Money in one view: payment checks, cash flow, accounts and agent statements", "Team and payroll: expert workloads, leaderboards and payroll by role", "Ads and enquiries: daily ad spend and enquiries per agent, across two branches", "Roles for management, operations, sales and experts", "Installable app with push notifications and a cloud database with audit log"],
+    results: ["Spreadsheets and chat threads replaced by one app", "Real-time view of orders, cash flow and team performance"], img: 1, pdf: 16 }),
+  // ---------------- Websites from the profile ----------------
+  P({ slug: "skilleaze", client: "Skilleaze", loc: "GCC", cc: "AE", ind: "education", cat: "Websites & stores", site: "https://skilleaze.com",
+    headline: "A career platform website with its own admin panel",
+    services: ["Website", "SEO", "Admin panel", "Tracking"], groups: ["web", "search", "data"],
+    metrics: [["21%", "Enquiry rate"], ["155", "WhatsApp enquiries in 30 days"], ["83.6%", "Engagement from Google"]],
+    summary: "Skilleaze is a career platform for job seekers across the GCC. Like every site we build, it comes with a private admin panel showing where visitors come from, what they search, which pages work and how many become enquiries.",
+    objective: "Turn the website into a measurable sales channel, not a brochure.",
+    strategy: ["Keywords planned before design started", "GA4, Clarity, WhatsApp, calls, forms and campaign links tracked from day one", "Traffic, sources, Google keywords and enquiries in one admin dashboard", "Clear offers and short paths from visit to enquiry"],
+    results: ["1,807 visitors and 155 WhatsApp enquiries in 30 days", "21% enquiry rate", "83.6% engagement from Google traffic"], img: 5, pdf: 19 }),
+  P({ slug: "liveeze", client: "Liveeze", loc: "Dubai, UAE", cc: "AE", ind: "construction", cat: "Websites & stores", site: "https://liveeze.com",
+    headline: "Spaces designed and built, under one roof",
+    services: ["Website design", "Development"], groups: ["web"], metrics: [["Live", "liveeze.com"], ["Interior", "Architecture"], ["Web", "Design & build"]],
+    summary: "Liveeze is an interior architecture brand that designs and builds spaces under one roof. We designed and built its website.",
+    objective: "Present a design-and-build studio with a premium, architectural feel.", strategy: ["Architectural, image-led design", "Clear service story from design to build", "Enquiry paths on every page"],
+    results: ["A live, premium website for the studio"], img: 1, pdf: 20 }),
+  P({ slug: "strattiq", client: "StrattIQ", loc: "Dubai, UAE", cc: "AE", ind: "tech", cat: "Websites & stores", site: "https://strattiq.com",
+    headline: "Complex business, made simple: a website for an automation and AI firm",
+    services: ["Website design", "Development"], groups: ["web"], metrics: [["Live", "strattiq.com"], ["AI", "& automation"], ["Web", "Design & build"]],
+    summary: "StrattIQ works in automation and AI in Dubai. We designed and built its website around a simple promise: complex business, made simple.",
+    objective: "Explain a technical offer clearly and turn visitors into enquiries.", strategy: ["A bold, simple message", "Clear service pages", "Enquiry-focused layout"],
+    results: ["A live website at strattiq.com"], img: 1, pdf: 20 }),
+  P({ slug: "al-zamin-technical-services", client: "Al Zamin Technical Services", loc: "Dubai, UAE", cc: "AE", ind: "construction", cat: "Websites & stores", site: "https://www.alzamintech.com",
+    headline: "Building care, engineered to last",
+    services: ["Website design", "Development", "SEO"], groups: ["web", "search"], metrics: [["Live", "alzamintech.com"], ["Building", "Services"], ["SEO", "Built in"]],
+    summary: "Al Zamin Technical Services provides building services in Dubai. We designed and built its website with SEO and tracking built in.",
+    objective: "Win more maintenance and building-services enquiries from search.", strategy: ["Service pages planned around search demand", "Trust signals and fast enquiry paths", "Tracking on every call, form and WhatsApp click"],
+    results: ["A live website at alzamintech.com"], img: 1, pdf: 20 }),
+  P({ slug: "stratt-signature", client: "Stratt Signature", loc: "Dubai, UAE", cc: "AE", ind: "real-estate", cat: "Websites & stores", site: "https://www.stratt.ae",
+    headline: "A luxury real estate website for Dubai",
+    services: ["Website design", "Development"], groups: ["web"], metrics: [["Live", "stratt.ae"], ["Luxury", "Real estate"], ["Web", "Design & build"]],
+    summary: "Stratt Signature is a luxury real estate brand in Dubai. We designed and built a cinematic website to match its market.",
+    objective: "Present luxury property with a premium, cinematic experience.", strategy: ["Cinematic, image-led design", "Clear property and service paths", "Lead capture for high-value buyers"],
+    results: ["A live website at stratt.ae"], img: 1, pdf: 20 }),
+  P({ slug: "property-talk-with-anandhu", client: "Property Talk with Anandhu", loc: "Dubai, UAE", cc: "AE", ind: "real-estate", cat: "Websites & stores", site: "https://www.propertytalkwithanandhu.com",
+    headline: "Dubai real estate, without the noise: a personal-brand site for an advisor",
+    services: ["Website design", "Personal branding"], groups: ["web", "brand"], metrics: [["Live", "Advisor website"], ["Dubai", "Real estate"], ["Brand", "Personal"]],
+    summary: "Property Talk with Anandhu is the personal brand of a Dubai real estate advisor. We built a website that cuts through the noise and turns trust into enquiries.",
+    objective: "Build a credible personal brand that brings in property enquiries.", strategy: ["A clear personal positioning", "Content-led pages", "WhatsApp and call enquiry paths"],
+    results: ["A live website at propertytalkwithanandhu.com"], img: 1, pdf: 20 }),
+  P({ slug: "shopeiz", client: "Shopeiz", loc: "India", cc: "IN", ind: "ecommerce", cat: "Websites & stores", site: "https://shopeiz.com",
+    headline: "The art of having everything: a custom e-commerce store",
+    services: ["Custom e-commerce", "Development"], groups: ["web"], metrics: [["Custom", "E-commerce"], ["India", "Market"], ["Live", "shopeiz.com"]],
+    summary: "Shopeiz is a custom e-commerce store in India. We designed and built it from scratch with its own admin and tracking.",
+    objective: "Launch a custom store that is fast, easy to manage and ready to scale.", strategy: ["Custom storefront design", "Product catalogue and checkout", "Admin panel and tracking"],
+    results: ["A live custom store at shopeiz.com"], img: 1, pdf: 21 }),
   // ---------------- E-commerce growth ----------------
   P({ slug: "house-of-jersey", client: "House of Jersey", loc: "Pune, India", cc: "IN", ind: "fashion", cat: "E-commerce growth", featured: true,
     headline: "Scaling a D2C fashion brand to ₹85.84 lakhs in annual revenue",
@@ -307,11 +405,11 @@ export const WORK = [
     strategy: ["Property listing system with search", "Team showcase for 50+ agents", "Inquiry forms throughout", "Mobile-first responsive design"],
     results: ["Delivered in 6 days", "Listings, search and lead capture in one platform"] }),
   P({ slug: "admin-empire", client: "Admin Empire by Hazel Saquin", loc: "Dubai, UAE", cc: "AE", ind: "startups", cat: "Websites & stores", site: "https://adminempire.ae",
-    headline: "A service platform for a business-administration consultancy",
+    headline: "A training and systems platform for a Dubai real estate trainer",
     services: ["Website design", "Booking system"], groups: ["web"],
     metrics: [["5 days", "Delivery"], ["Booking", "System built in"], ["B2B", "Services"]],
-    summary: "Admin Empire helps entrepreneurs with administration, operations and systems building. We built a professional site with service pages and consultation booking.",
-    objective: "Showcase administration services and make booking a consultation easy.",
+    summary: "Admin Empire, by Hazel Saquin, trains real estate professionals and builds the systems behind their businesses: Training Minds, Building Systems. We built a professional site with programme pages and consultation booking.",
+    objective: "Showcase training programmes and make booking a consultation easy.",
     strategy: ["Trust-building design", "Clear service and pricing pages", "Consultation booking system"],
     results: ["Delivered in 5 days", "Inquiries and bookings handled online"] }),
   P({ slug: "dream-palette", client: "Dream Palette", loc: "Online", cc: "AE", ind: "ecommerce", cat: "Websites & stores", site: "https://thedreampalette.com",
@@ -325,8 +423,23 @@ export const WORK = [
 ];
 
 export const VENTURES = [
+  { name: "WhatsEaze", url: "https://whatseaze.com", text: "Our AI assistant that answers every WhatsApp message in seconds, day and night, and moves each chat towards a sale." },
   { name: "Skilleaze", url: "https://www.skilleaze.com", text: "A career platform for job seekers in India, the UAE and the GCC: CV writing, LinkedIn optimisation, portfolio websites and interview coaching." },
   { name: "StrattIQ", url: "https://strattiq.com", text: "Scaled Agile Framework (SAFe) training and certification for professionals and enterprises." },
 ];
 
 export const HEADLINE_STATS = [["$2M+", "Revenue generated for clients"], ["50+", "Businesses scaled"], ["10+", "Countries served"], ["6.2x", "Average ROAS"]];
+
+// Images (from the Brandeeze company profile PDF) and the profile page each project appears on.
+const EXTRA = {
+  "kaye-and-co-real-estate": [1, 11], "yallatoys": [1, 11], "lana-life-care": [1, 11], "lark-ellen-farm": [1, 11], "sassind-melbourne": [1, 11],
+  "house-of-nutrition": [1, 11], "house-of-jersey": [1, 11], "compass-jewelry": [1, 11], "flavored-pb-co": [1, 12], "jarvis-invest": [1, 12],
+  "majid-uniqueness-institute": [1, 12], "aceit-training-institute": [1, 12], "gonow-visa-consultancy": [1, 12], "asian-gold-and-diamonds": [1, 12],
+  "caterers-uae": [1, 12], "city-alpha-dental-care": [1, 12], "corporate-gifts-kerala-seo": [1, 13], "alwafa-furniture-seo": [2, 13], "kite-media-concept-seo": [1, 13],
+  "admin-empire": [1, 20], "be-active-wear": [1, 21], "dream-diamonds": [1, 21], "rmdy": [1, 21], "mighty-munch": [1, 21], "inspire-me-home-decor": [1, 21], "bearfruit-jewelry": [1, 21],
+};
+for (const w of WORK) {
+  if (EXTRA[w.slug]) { w.img = EXTRA[w.slug][0]; w.pdf = EXTRA[w.slug][1]; }
+  w.images = Array.from({ length: w.img || 0 }, (_, i) => `/assets/work/${w.slug}-${i + 1}.jpg`);
+  if (w.images.length) w.proof = null; // local images replace the hotlinked screenshots
+}
