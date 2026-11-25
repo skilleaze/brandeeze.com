@@ -648,7 +648,7 @@ for(let i=0;i<6;i++){
   const m=new THREE.Mesh(geo,mat);root.add(m);
   const col=i<3?0:1,row=i%3;
   bars.push({m,col,row,seed:Math.random()*10,
-    scatter:{p:[(Math.random()-.5)*14,(Math.random()-.5)*8,(Math.random()-.5)*6-1],r:[Math.random()*6,Math.random()*6,Math.random()*6]}});
+    scatter:{p:[(Math.random()-.5)*14,(Math.random()-.5)*8,(Math.random()-.5)*6-1],r:[(Math.random()-.5)*.9,(Math.random()-.5)*1.1,(Math.random()-.5)*.6]}});
 }
 /* Particles */
 const N=innerWidth<760?700:1600;
@@ -670,16 +670,16 @@ const STATES=[
   (b,t)=>{const L=logoPose(b);const mb=mobile();return{p:[L.p[0],L.p[1],L.p[2]],r:[0,0,0],s:1,
      g:portrait()?heroPortrait():{p:mb?[2.2,.6,-1]:[3.55,.45,0],r:[.18,-.42,0],s:mb?.6:.8}}},
   // 1 manifesto: scattered
-  (b,t)=>({p:b.scatter.p,r:[b.scatter.r[0]+t*.15,b.scatter.r[1]+t*.1,b.scatter.r[2]],s:.55,g:{p:[0,0,0],r:[0,0,0],s:1}}),
+  (b,t)=>({p:b.scatter.p,r:[b.scatter.r[0]+Math.sin(t*.25+b.seed)*.08,b.scatter.r[1]+Math.sin(t*.2+b.seed)*.1,b.scatter.r[2]],s:.55,g:{p:[0,0,0],r:[0,0,0],s:1}}),
   // 2 services: six vertical pillars
   (b,t)=>{const i=bars.indexOf(b),a=window.BZ.activeService===i,mb=mobile();
-     return{p:[(i-2.5)*1.35,a?.55:-.15,a?1:0],r:[0,a?t*.8:.35,Math.PI/2],s:a?1:.82,
+     return{p:[(i-2.5)*1.35,a?.55:-.15,a?1:0],r:[0,a?Math.sin(t*.5)*.12:.35,Math.PI/2],s:a?1:.82,
        g:portrait()?{p:[0,HH*.55,-1],r:[.1,.3,0],s:Math.min(.55,.9*innerWidth/innerHeight)}:{p:mb?[-2.6,1.5,0]:[-4.5,1.75,0],r:[.1,.4,0],s:mb?.45:.6}}},
   // 3 work: orbiting ring
-  (b,t)=>{const i=bars.indexOf(b),a=i/6*Math.PI*2+t*.35;
-     return{p:[Math.cos(a)*3.6,Math.sin(t*.8+i)*.25,Math.sin(a)*3.6],r:[0,-a+Math.PI/2,.0],s:.7,g:{p:[0,-2.6,-4],r:[.35,0,0],s:1}}},
+  (b,t)=>{const i=bars.indexOf(b),a=i/6*Math.PI*2+t*.07;
+     return{p:[Math.cos(a)*3.6,Math.sin(t*.5+i)*.18,Math.sin(a)*3.6],r:[0,Math.sin(a)*.35,0],s:.7,g:{p:[0,-2.6,-4],r:[.35,0,0],s:1}}},
   // 4 CTA: logo, centred & big behind text
-  (b,t)=>{const L=logoPose(b);return{p:L.p,r:[0,0,0],s:1,g:portrait()?{p:[0,HH*.45,-2],r:[.12,t*.25,0],s:Math.min(1,1.25*innerWidth/innerHeight)}:{p:[0,.2,-6],r:[.12,t*.25,0],s:1.25}}}
+  (b,t)=>{const L=logoPose(b);return{p:L.p,r:[0,0,0],s:1,g:portrait()?{p:[0,HH*.45,-2],r:[.12,Math.sin(t*.3)*.18,0],s:Math.min(1,1.25*innerWidth/innerHeight)}:{p:[0,.2,-6],r:[.12,Math.sin(t*.3)*.18,0],s:1.25}}}
 ];
 const lerp=(a,b,t)=>a+(b-a)*t;
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
@@ -687,8 +687,8 @@ const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 let f=0,mx=0,my=0;const clock=new THREE.Clock();
 const gP=new THREE.Vector3(),gR=new THREE.Euler();
 function frame(){
-  const t=clock.getElapsedTime();
-  const target=window.BZ.scene||0;f+=(target-f)*(RM?1:.07);
+  const dt=Math.min(.05,clock.getDelta()),t=clock.elapsedTime;
+  const target=window.BZ.scene||0;f+=(target-f)*(RM?1:1-Math.exp(-dt*2.2));
   const i0=Math.floor(f),i1=Math.min(STATES.length-1,i0+1),k=ease(f-i0);
   mx+=((window.BZ.mx||0)-mx)*.05;my+=((window.BZ.my||0)-my)*.05;
   const lp=RM?1:(Number.isFinite(window.BZ.loadP)?window.BZ.loadP:0);
@@ -697,7 +697,7 @@ function frame(){
   let G=null;
   bars.forEach((b,i)=>{
     const A=STATES[i0](b,t),B=STATES[i1](b,t);
-    const fl=Math.sin(t*1.2+b.seed)*.06;
+    const fl=Math.sin(t*.7+b.seed)*.05;
     let px=lerp(A.p[0],B.p[0],k),py=lerp(A.p[1],B.p[1],k)+fl,pz=lerp(A.p[2],B.p[2],k);
     let rx=lerp(A.r[0],B.r[0],k),ry=lerp(A.r[1],B.r[1],k),rz=lerp(A.r[2],B.r[2],k),s=lerp(A.s,B.s,k);
     if(fly<1){
@@ -727,7 +727,7 @@ function frame(){
   root.position.copy(gP);
   root.rotation.set(grx+my*.22,gry+mx*.35,grz);
   root.scale.setScalar(gs);
-  pts.rotation.y=t*.02+f*.4;pts.rotation.x=f*.08;pts.position.y=f*.6;
+  pts.rotation.y=t*.012+f*.25;pts.rotation.x=f*.08;pts.position.y=f*.6;
   camera.position.x+=(mx*.6-camera.position.x)*.04;camera.position.y+=(-my*.4-camera.position.y)*.04;camera.lookAt(0,0,0);
   if(mobile()){const ss=(a,b,x)=>{x=Math.min(1,Math.max(0,(x-a)/(b-a)));return x*x*(3-2*x)};const bump=ss(.45,1,f)*(1-.25*ss(3.3,3.85,f));canvas.style.opacity=(1-.7*bump).toFixed(3)}else canvas.style.opacity="";
   renderer.render(scene,camera);
