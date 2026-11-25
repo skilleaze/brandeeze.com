@@ -111,7 +111,7 @@ function servicePage(svc, city) {
 
   const titles = [`${sName} in ${city.name} | Brandeeze`, `${city.name} ${sLow} | Brandeeze`, `${sName} in ${city.name}, ${cap(co.short)} | Brandeeze`];
   const title = pick(r, city.name === co.short || city.name === "Singapore" || city.name === "Hong Kong" ? titles.slice(0, 2) : titles);
-  const h1s = [`${sName} in ${city.name}`, `${sName} in ${city.name} for brands that want to grow`, `${sName} serving ${city.name}`, `${city.name} ${sLow}, by Brandeeze`];
+  const h1s = [`${sName} in ${city.name}`, `${sName} in ${city.name} for brands that want to grow`, `${sName} serving ${city.name}`, `${city.name}'s ${sLow} partner`];
   const h1 = pick(r, h1s);
   const lead = F(pick(r, svc.leads));
   const deliver = shuffle(r, svc.deliver).slice(0, 5 + Math.floor(r() * 2));

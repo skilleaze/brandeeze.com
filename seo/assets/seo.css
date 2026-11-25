@@ -33,7 +33,9 @@ img{display:block;max-width:100%;height:auto}
 /* type */
 .label{display:inline-flex;align-items:center;gap:12px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2)}
 .label::before{content:"";width:28px;height:2px;background:var(--gold)}
-h1{margin:18px 0 0;font-weight:800;text-transform:uppercase;letter-spacing:-.035em;line-height:.92;font-size:clamp(42px,7.4vw,112px);text-wrap:balance}
+h1{margin:18px 0 0;font-weight:800;text-transform:uppercase;letter-spacing:-.035em;line-height:.92;font-size:clamp(38px,5.4vw,88px);text-wrap:balance}
+.hero .grid2{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}.h-giant h1{font-size:clamp(40px,6.6vw,104px);max-width:14ch}
+@media (max-width:860px){.hero .grid2{grid-template-columns:1fr}.bars{margin:0;width:min(240px,60%)}}
 .h2{margin:16px 0 0;font-weight:800;text-transform:uppercase;letter-spacing:-.03em;line-height:.95;font-size:clamp(30px,4vw,60px);text-wrap:balance}
 .h-xl{margin:18px 0 0;font-weight:800;text-transform:uppercase;letter-spacing:-.04em;line-height:.88;font-size:clamp(52px,10vw,160px)}
 .lead{margin:22px 0 0;font-size:clamp(18px,1.6vw,22px);line-height:1.45;color:var(--muted-2);max-width:620px}
