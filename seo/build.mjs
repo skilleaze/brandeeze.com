@@ -70,7 +70,9 @@ function head({ title, desc, url, schema }) {
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Brandeeze">
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${SITE}${url}">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="${SITE}/assets/og-image.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${SITE}/assets/og-image.jpg">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#1F2235">
 <link rel="preload" href="/_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/assets/fonts/archivo-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="${DS}">
@@ -97,7 +99,7 @@ function foot() {
 }
 const crumbs = (items) => `<nav class="crumbs" aria-label="Breadcrumb">${items.map(([n, u], i) => i === items.length - 1 ? `<span>${esc(n)}</span>` : `<a href="${u}">${esc(n)}</a>`).join("<i>/</i>")}</nav>`;
 const crumbSchema = (items) => ({ "@type": "BreadcrumbList", itemListElement: items.map(([n, u], i) => ({ "@type": "ListItem", position: i + 1, name: n, item: SITE + u })) });
-const ORG = { "@type": "ProfessionalService", "@id": SITE + "/#org", name: "Brandeeze", url: SITE + "/", logo: SITE + "/assets/wordmark-on-dark.svg", email: "hello@brandeeze.com",
+const ORG = { "@type": "ProfessionalService", "@id": SITE + "/#org", name: "Brandeeze", url: SITE + "/", logo: SITE + "/assets/wordmark-on-dark.svg", image: SITE + "/assets/og-image.jpg", email: "hello@brandeeze.com",
   address: { "@type": "PostalAddress", addressLocality: "Dubai", addressCountry: "AE" } };
 const bars = () => `<div class="bars" aria-hidden="true">${"<i></i>".repeat(6)}</div>`;
 
@@ -274,5 +276,5 @@ for (const city of CITIES) {
 }
 urls.push("/Work.dc.html", "/Contact.dc.html");
 fs.writeFileSync(path.join(OUT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${TODAY}</lastmod></url>`).join("\n")}\n</urlset>\n`);
-fs.writeFileSync(path.join(OUT, "robots.txt"), `User-agent: *\nAllow: /\nDisallow: /classic\n\nSitemap: ${SITE}/sitemap.xml\n`);
+fs.writeFileSync(path.join(OUT, "robots.txt"), `User-agent: *\nAllow: /\nDisallow: /classic\nDisallow: /Home.dc.html\nDisallow: /Home%20v1.dc.html\n\nSitemap: ${SITE}/sitemap.xml\n`);
 console.log(`Built ${n} service×city pages, ${CITIES.length} city hubs, ${SERVICES.length} service hubs, ${urls.length} sitemap URLs.`);
