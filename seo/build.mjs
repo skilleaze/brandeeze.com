@@ -18,7 +18,8 @@ const CONTACT_LABEL = { brand: "Branding", video: "Video & content", search: "SE
 /* ---------------- helpers ---------------- */
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
-const lc = (s) => (s.length > 1 && s[1] === s[1].toUpperCase() && /[A-Z]/.test(s[1])) ? s : s.charAt(0).toLowerCase() + s.slice(1);
+const KEEP = new Set(["WhatsApp", "Google", "Meta", "Ads", "Instagram", "Facebook", "Shopify", "Arabic", "English"]);
+const lc = (s) => s.split(" ").map((w) => KEEP.has(w) || /[A-Z].*[A-Z]/.test(w) ? w : w.toLowerCase()).join(" ");
 const TOPIC = { "creative-agency": "creative work", "crm-consultancy": "CRM", "data-analytics-consultancy": "data and analytics", "meta-ads-agency": "Meta ads" };
 const topicOf = (svc) => TOPIC[svc.slug] || lc(svc.name.replace(/ (agency|company|consultancy)$/i, ""));
 function hash(str) { let h = 2166136261; for (const c of str) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
@@ -145,7 +146,7 @@ function servicePage(svc, city) {
     <div class="prose"><p>${esc(F(pick(r, svc.what)))}</p><p>${esc(market)}</p></div></div></section>`;
   S.industries = (bg) => `<section class="sec ${bg}"><div class="wrap">
     <span class="label">${pick(r, ["Industries", "Who we help", "Sectors"])}</span><h2 class="h2">${esc(pick(r, [`Who we help in ${city.name}`, `${sName} for ${city.name}'s key industries`, `Built for the sectors that drive ${city.name}`]))}</h2>
-    <div class="cards">${shuffle(r, city.ind).slice(0, 3 + Math.floor(r() * 2)).map((k) => { const ind = INDUSTRIES[k]; const tpl = [`In ${ind.label.toLowerCase()}, ${ind.buyer}, so ${svc.benefit}.`, `${cap(ind.buyer)}. For ${ind.label.toLowerCase()} brands in ${city.name}, ${svc.benefit}.`, `${ind.label} in ${city.name} is demanding: ${ind.buyer}. That's where ${topic} earns its keep, because ${svc.benefit}.`]; return `<div class="card"><h3>${esc(ind.label)}</h3><p>${esc(pick(r, tpl))}</p></div>`; }).join("")}</div></div></section>`;
+    <div class="cards">${shuffle(r, city.ind).slice(0, 3 + Math.floor(r() * 2)).map((k) => { const ind = INDUSTRIES[k]; const tpl = [`In ${lc(ind.label)}, ${ind.buyer}, so ${svc.benefit}.`, `${cap(ind.buyer)}. For ${lc(ind.label)} brands in ${city.name}, ${svc.benefit}.`, `${ind.label} in ${city.name} is demanding: ${ind.buyer}. That's where ${topic} earns its keep, because ${svc.benefit}.`]; return `<div class="card"><h3>${esc(ind.label)}</h3><p>${esc(pick(r, tpl))}</p></div>`; }).join("")}</div></div></section>`;
   S.deliver = (bg) => `<section class="sec ${bg}"><div class="wrap grid2">
     <div><span class="label">${pick(r, ["What's included", "Deliverables", "Scope"])}</span><h2 class="h2">${esc(pick(r, [`Our ${topic} services in ${city.name}`, `What you get`, `Everything ${topic} should include`]))}</h2><p class="muted">${esc(pick(r, ["Every engagement is scoped to your goals. These are the building blocks we combine.", "Pick what you need now and add the rest as you grow.", `One team delivers all of it, so nothing gets lost between suppliers.`]))}</p></div>
     <ol class="deliver">${deliver.map((d, i) => `<li><span class="n">${String(i + 1).padStart(2, "0")}</span><div><h3>${esc(F(d[0]))}</h3><p>${esc(F(d[1]))}</p></div></li>`).join("")}</ol></div></section>`;
