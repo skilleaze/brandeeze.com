@@ -207,6 +207,7 @@ main{transition:opacity .9s var(--ease) .15s}body.loading main,body.loading .nav
 .card .cap{position:absolute;left:24px;right:24px;bottom:22px;z-index:2;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;transform:translateZ(40px)}
 .card .cap .nm{font-size:clamp(22px,2vw,30px);font-weight:700;letter-spacing:-.01em}
 .card .cap .tg{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.card .met{position:absolute;left:24px;right:24px;top:56px;z-index:2;display:flex;flex-direction:column;gap:8px}.card .met b{font-size:clamp(52px,6vw,96px);font-weight:800;letter-spacing:-.05em;line-height:.85;color:#fff;text-shadow:0 10px 40px rgba(0,0,0,.35)}.card .met span{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-3)}
 .card .idx{position:absolute;top:18px;left:22px;z-index:2;font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--white);transform:translateZ(30px)}
 .art{background:var(--noctis-3)}
 .art.a1{background:conic-gradient(from 210deg at 70% 30%,#E3A419,#1F2235 40%,#2E3250 70%,#E3A419)}
@@ -296,7 +297,7 @@ footer a:hover{color:var(--gold)}
         <div class="cta">
           <a class="btn btn-gold magnetic" href="Contact.dc.html" data-cursor="Let's go"><span class="fill"></span>Start a project
             <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a class="btn btn-ghost magnetic" href="#work"><span class="fill"></span>See the work</a>
+          <a class="btn btn-ghost magnetic" href="/work"><span class="fill"></span>See the work</a>
         </div>
       </div>
       <div class="ticker" id="ticker"></div>
@@ -315,9 +316,9 @@ footer a:hover{color:var(--gold)}
       <div>
         <p class="big" id="manifesto">Most agencies do one thing well. We do the [six things] a brand needs to grow, with [one team,] [one strategy] and [one standard] of craft.</p>
         <div class="stats reveal">
-          <div><span class="k">Six</span><span class="v">Services under one roof</span></div>
-          <div><span class="k gold">Zero</span><span class="v">Handoffs between teams</span></div>
-          <div><span class="k">Worldwide</span><span class="v">Clients</span></div>
+          <div><span class="k gold">$2M+</span><span class="v">Revenue generated for clients</span></div>
+          <div><span class="k">50+</span><span class="v">Businesses scaled</span></div>
+          <div><span class="k">10+</span><span class="v">Countries served</span></div>
         </div>
       </div>
     </div>
@@ -386,7 +387,7 @@ footer a:hover{color:var(--gold)}
     <footer>
       <div class="wrap">
         <span class="cap">© 2026 Brandeeze</span>
-        <nav><a href="#services">Services</a><a href="Work.dc.html">Work</a><a href="Contact.dc.html">Contact</a><a href="/locations">Locations</a></nav>
+        <nav><a href="#services">Services</a><a href="/work">Work</a><a href="Contact.dc.html">Contact</a><a href="/locations">Locations</a></nav>
         <nav><a href="/dubai">Agency in Dubai</a><a href="/abu-dhabi">Abu Dhabi</a><a href="/riyadh">Riyadh</a><a href="/services/seo-agency">SEO agency</a><a href="/services/branding-agency">Branding agency</a></nav>
         <span>Branding, content, SEO, performance, social, automation and software.</span>
       </div>
@@ -406,12 +407,14 @@ const SERVICES=[
  {k:"web",name:"Web & software",verb:"choose.",desc:"Websites, stores and apps engineered to load fast, convert and scale with you.",tags:["Websites","E-commerce","Web apps","UX & UI"]}
 ];
 const WORK=[
- {name:"Project name",tags:"Branding · Web",img:"assets/sunset.jpg"},
- {name:"Project name",tags:"Video · Social",art:"a1"},
- {name:"Project name",tags:"SEO & performance",img:"assets/lake-bw.jpg"},
- {name:"Project name",tags:"Automation · Software",art:"a2"},
- {name:"Project name",tags:"Branding · Packaging",art:"a3"},
- {name:"Project name",tags:"Social · Creators",art:"a4"}
+ {s:"kaye-and-co-real-estate",name:"Kaye & Co Real Estate",tags:"Dubai · Lead generation",m:"12x",l:"ROAS · $420K commission",art:"a2"},
+ {s:"house-of-jersey",name:"House of Jersey",tags:"Pune · E-commerce",m:"10x",l:"ROAS · ₹85.84L revenue",art:"a1"},
+ {s:"yallatoys",name:"Yallatoys",tags:"Doha · E-commerce",m:"$200K",l:"Revenue · 8x ROAS",art:"a3"},
+ {s:"sassind-melbourne",name:"Sassind Melbourne",tags:"Melbourne · Luxury fashion",m:"10.36x",l:"ROAS · $162K revenue",art:"a4"},
+ {s:"alwafa-furniture-seo",name:"Alwafa Furniture",tags:"UAE · SEO",m:"Top 3",l:"On Google · +240% traffic",art:"a2"},
+ {s:"lana-life-care",name:"Lana Life Care",tags:"Dubai · Healthcare",m:"$180K",l:"Revenue · 12x ROAS",art:"a1"},
+ {s:"jarvis-invest",name:"Jarvis Invest",tags:"Mumbai · FinTech",m:"-53%",l:"Cost per lead · 2.2K conversions",art:"a3"},
+ {s:"lark-ellen-farm",name:"Lark Ellen Farm",tags:"California · Organic food",m:"$172K",l:"Revenue · 9.17x ROAS",art:"a4"}
 ];
 const ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -427,8 +430,8 @@ window.BZ={activeService:0,scene:0};
   const mq2=["Brands people choose","One team","One strategy","One standard of craft"].map(t=>`<span>${t}</span>`).join("");
   document.getElementById("mq2").innerHTML=mq2+mq2+mq2;
   document.getElementById("svcList").innerHTML=SERVICES.map((s,i)=>`<a class="svc" href="Service.dc.html?s=${s.k}" data-i="${i}" data-cursor="Explore"><span class="n">0${i+1}</span><span class="t">${s.name}</span><span class="go">${ARROW}</span></a>`).join("");
-  document.getElementById("track").innerHTML=WORK.map((w,i)=>`<a class="card" href="Work.dc.html" data-cursor="View"><div class="in"><div class="img">${w.img?`<img src="${w.img}" alt="" loading="lazy">`:`<div class="art ${w.art}"></div>`}</div><span class="idx">0${i+1}</span><div class="cap"><span class="nm">${w.name}</span><span class="tg">${w.tags}</span></div></div></a>`).join("")+
-    `<div class="card end"><a href="Work.dc.html" data-cursor="All work"><span>All<br>work</span><span class="btn btn-gold" style="align-self:flex-start"><span class="fill"></span>View all ${ARROW.replace('<svg','<svg class="arr"')}</span></a></div>`;
+  document.getElementById("track").innerHTML=WORK.map((w,i)=>`<a class="card" href="/work/${w.s}" data-cursor="View"><div class="in"><div class="img"><div class="art ${w.art}"></div><div class="met"><b>${w.m}</b><span>${w.l}</span></div></div><span class="idx">0${i+1}</span><div class="cap"><span class="nm">${w.name}</span><span class="tg">${w.tags}</span></div></div></a>`).join("")+
+    `<div class="card end"><a href="/work" data-cursor="All work"><span>All<br>work</span><span class="btn btn-gold" style="align-self:flex-start"><span class="fill"></span>View all ${ARROW.replace('<svg','<svg class="arr"')}</span></a></div>`;
   // manifesto words
   const m=document.getElementById("manifesto");
   const raw=m.textContent;let html="",g=false;

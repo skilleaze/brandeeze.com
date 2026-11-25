@@ -6,6 +6,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { COUNTRIES, CITIES, REGION_ORDER } from "./data/geo.mjs";
 import { SERVICES, GROUPS, INDUSTRIES } from "./data/services.mjs";
+import { WORK, CATEGORIES, VENTURES, HEADLINE_STATS } from "./data/work.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "dist");
@@ -82,7 +83,7 @@ function head({ title, desc, url, schema }) {
 <body>
 <header class="nav"><div class="in">
   <a href="/" class="logo" aria-label="Brandeeze home"><img src="/assets/wordmark-on-dark.svg" alt="Brandeeze" width="156" height="18"></a>
-  <nav class="links"><a href="/#services">Services</a><a href="/Work.dc.html">Work</a><a href="/locations">Locations</a><a class="btn btn-gold btn-sm" href="/Contact.dc.html">Start a project</a></nav>
+  <nav class="links"><a href="/#services">Services</a><a href="/work">Work</a><a href="/locations">Locations</a><a class="btn btn-gold btn-sm" href="/Contact.dc.html">Start a project</a></nav>
 </div></header>
 <main>`;
 }
@@ -92,7 +93,7 @@ function foot() {
   <div><img src="/assets/wordmark-on-dark.svg" alt="Brandeeze" width="156" height="18"><p>A creative and marketing agency based in Dubai, working with brands across the Middle East and around the world.</p></div>
   <nav><span class="cap">Services</span><a href="/services/marketing-agency">Marketing</a><a href="/services/branding-agency">Branding</a><a href="/services/seo-agency">SEO</a><a href="/services/social-media-agency">Social media</a><a href="/services/web-design-company">Web design</a></nav>
   <nav><span class="cap">Popular</span><a href="/dubai">Dubai</a><a href="/abu-dhabi">Abu Dhabi</a><a href="/riyadh">Riyadh</a><a href="/london">London</a><a href="/locations">All locations</a></nav>
-  <nav><span class="cap">Brandeeze</span><a href="/">Home</a><a href="/Work.dc.html">Work</a><a href="/Contact.dc.html">Contact</a><a href="mailto:hello@brandeeze.com">hello@brandeeze.com</a></nav>
+  <nav><span class="cap">Brandeeze</span><a href="/">Home</a><a href="/work">Work</a><a href="/Contact.dc.html">Contact</a><a href="mailto:hello@brandeeze.com">hello@brandeeze.com</a></nav>
 </div><div class="wrap fine">© ${new Date().getFullYear()} Brandeeze. All rights reserved.</div></footer>
 </body>
 </html>`;
@@ -181,12 +182,14 @@ function servicePage(svc, city) {
     <div><span class="label">Nearby</span><h2 class="h2">${esc(sName)} in other cities</h2>
       <ul class="links-list">${ctx.nearby.map((c) => `<li><a href="/${c.slug}/${svc.slug}">${esc(sName)} in ${esc(c.name)}${ARROW}</a></li>`).join("")}<li><a href="/services/${svc.slug}">${esc(sName)}: all locations${ARROW}</a></li></ul></div></div></section>`;
 
-  const orders = [["intro", "industries", "deliver", "process", "local", "why", "faq", "related"], ["intro", "deliver", "local", "industries", "why", "process", "faq", "related"], ["intro", "why", "deliver", "industries", "process", "local", "faq", "related"]];
+  const proofs = proofFor(svc, city, r);
+  S.proof = (bg) => `<section class="sec ${bg}"><div class="wrap"><span class="label">${pick(r, ["Proof", "Results", "Case studies"])}</span><h2 class="h2">${esc(pick(r, ["Proof, not promises", "Results we've delivered", `Work that backs up our ${topic}`]))}</h2><div class="wgrid three">${proofs.map(workCard).join("")}</div><p class="muted" style="margin-top:24px"><a class="u" href="/work">See all ${WORK.length} case studies</a></p></div></section>`;
+  const orders = [["intro", "industries", "deliver", "process", "local", "why", "proof", "faq", "related"], ["intro", "deliver", "local", "industries", "why", "process", "proof", "faq", "related"], ["intro", "why", "deliver", "industries", "process", "local", "proof", "faq", "related"]];
   const body = orders[order].map((k, i) => S[k](i % 2 ? "light" : (i === 0 ? "dark" : "dark2"))).join("\n");
 
   const crumbItems = [["Home", "/"], ["Locations", "/locations"], [city.name, `/${city.slug}`], [sName, url]];
   const contactHref = "/Contact.dc.html" + (CONTACT_LABEL[svc.group] ? "?service=" + encodeURIComponent(CONTACT_LABEL[svc.group]) : "");
-  const ctas = `<div class="ctas"><a class="btn btn-gold" href="${contactHref}">${pick(r, ["Get a free consultation", "Start a project", "Talk to our team"])}${ARROW}</a><a class="btn btn-ghost" href="/Work.dc.html">See our work</a></div>`;
+  const ctas = `<div class="ctas"><a class="btn btn-gold" href="${contactHref}">${pick(r, ["Get a free consultation", "Start a project", "Talk to our team"])}${ARROW}</a><a class="btn btn-ghost" href="/work">See our work</a></div>`;
   const facts = `<div class="facts compact"><div><span>Working hours</span><b>${esc(ctx.tz.short)}</b></div><div><span>Currency</span><b>${esc(co.cur[0] === "USD" ? "USD" : co.cur[0] + " or USD")}</b></div><div><span>Languages</span><b>${esc(list(co.lang.slice(0, 2)))}</b></div><div><span>Based in</span><b>Dubai, UAE</b></div></div>`;
   let hero;
   if (layout === 0) hero = `<section class="hero h-split"><div class="wrap">${crumbs(crumbItems)}<div class="grid2 end"><div><span class="label">${esc(g.label)} · ${esc(city.name)}</span><h1>${esc(h1)}</h1><p class="lead">${esc(lead)}</p>${ctas}</div><div class="hero-side">${bars()}${facts}</div></div></div></section>`;
@@ -253,6 +256,72 @@ function locations() {
   return { url, html };
 }
 
+
+/* ---------------- work ---------------- */
+const CAT_CLASS = { "E-commerce growth": "c-ecom", "Lead generation": "c-lead", "SEO": "c-seo", "Websites & stores": "c-web" };
+const SVC_LINK = { "Meta Ads": "meta-ads-agency", "Google Ads": "google-ads-agency", "Google Search": "google-ads-agency", "WhatsApp automation": "whatsapp-automation", "WhatsApp Business": "whatsapp-automation", "CRM & WhatsApp automation": "crm-consultancy", "CRM follow-up": "crm-consultancy", "Bitrix24 CRM": "crm-consultancy", "Email automation": "marketing-automation-agency", "Performance marketing": "performance-marketing-agency", "Healthcare marketing": "performance-marketing-agency", "B2B SEO": "seo-agency", "Product SEO": "seo-agency", "Local SEO": "local-seo", "Portfolio SEO": "seo-agency", "Google Business Profile": "local-seo", "Schema markup": "seo-agency", "Content": "content-marketing-agency", "Shopify design": "ecommerce-development", "Shopify development": "ecommerce-development", "Shopify setup": "ecommerce-development", "Shopify build": "ecommerce-development", "Shopify redesign": "ecommerce-development", "Shopify subscriptions": "ecommerce-development", "E-commerce launch": "ecommerce-development", "E-commerce development": "ecommerce-development", "E-commerce": "ecommerce-development", "E-commerce platform": "ecommerce-development", "Website design": "web-design-company", "Website development": "web-design-company", "Development": "web-design-company", "Landing pages": "web-design-company", "Landing page optimisation": "web-design-company", "Social media ads": "meta-ads-agency", "Instagram lead ads": "meta-ads-agency", "Video ads": "video-production-company", "UGC creative": "content-marketing-agency", "Creative strategy": "creative-agency", "Catalogue automation": "ai-automation-agency", "CRO": "performance-marketing-agency", "UX": "web-design-company", "Upsells": "ecommerce-development", "Booking system": "software-development-company", "Property search": "software-development-company", "Lead generation": "performance-marketing-agency", "Local targeting": "local-seo" };
+function cover(w, big) {
+  const m = w.metrics[0];
+  return `<div class="cov ${CAT_CLASS[w.cat]}${big ? " big" : ""}" aria-hidden="true"><span class="cov-cat">${esc(w.cat)}</span><span class="cov-m">${esc(m[0])}</span><span class="cov-l">${esc(m[1])}</span><span class="cov-c">${esc(w.client)}</span></div>`;
+}
+function workCard(w) {
+  return `<a class="wcard" href="/work/${w.slug}" data-cat="${esc(w.cat)}">${cover(w)}<div class="wbody"><span class="wloc">${esc(w.loc)}</span><h3>${esc(w.headline)}</h3><div class="wtags">${w.services.slice(0, 3).map((s) => `<span>${esc(s)}</span>`).join("")}</div></div></a>`;
+}
+function workIndex() {
+  const url = "/work";
+  const title = "Our Work: Case Studies & Client Results | Brandeeze";
+  const desc = `${WORK.length} client projects across e-commerce, lead generation, SEO and websites, from Dubai and Doha to Melbourne and New York. Real numbers, real brands.`;
+  const crumbItems = [["Home", "/"], ["Work", url]];
+  const html = head({ title, desc, url, schema: { "@context": "https://schema.org", "@graph": [ORG, crumbSchema(crumbItems),
+      { "@type": "CollectionPage", name: title, url: SITE + url, hasPart: WORK.map((w) => ({ "@type": "CreativeWork", name: `${w.client}: ${w.headline}`, url: `${SITE}/work/${w.slug}` })) }] } }) +
+    `<section class="hero h-split"><div class="wrap">${crumbs(crumbItems)}<div class="grid2 end"><div><span class="label">Selected work</span><h1>Proof, not promises.</h1><p class="lead">${esc(`${WORK.length} projects for brands across ${new Set(WORK.map((w) => w.cc)).size} countries. Every number below comes from the client's own ad accounts, analytics or store data.`)}</p></div><div class="hero-side">${bars()}</div></div>
+    <div class="stats4">${HEADLINE_STATS.map(([k, v]) => `<div><b>${esc(k)}</b><span>${esc(v)}</span></div>`).join("")}</div></div></section>
+<section class="sec light"><div class="wrap">
+  <div class="filters" role="tablist">${["All", ...CATEGORIES].map((c, i) => `<button type="button" class="chip${i ? "" : " on"}" data-f="${esc(c)}">${esc(c)} <i>${c === "All" ? WORK.length : WORK.filter((w) => w.cat === c).length}</i></button>`).join("")}</div>
+  <div class="wgrid" id="wgrid">${WORK.map(workCard).join("")}</div></div></section>
+<section class="sec dark2"><div class="wrap grid2"><div><span class="label">Ventures</span><h2 class="h2">Brands we built ourselves</h2><p class="muted">We don't just advise. We've launched and grown our own businesses with the same playbook.</p></div>
+  <div class="cards">${VENTURES.map((v) => `<a class="card" href="${v.url}" target="_blank" rel="noopener"><h3>${esc(v.name)} ↗</h3><p>${esc(v.text)}</p></a>`).join("")}</div></div></section>
+<section class="sec cta"><div class="wrap"><span class="label">Next step</span><h2 class="h-xl">Your brand is next.</h2><div class="ctas"><a class="btn btn-gold" href="/Contact.dc.html">Start a project${ARROW}</a></div></div></section>
+<script>(()=>{const b=[...document.querySelectorAll('.chip')],c=[...document.querySelectorAll('.wcard')];b.forEach(x=>x.addEventListener('click',()=>{b.forEach(y=>y.classList.toggle('on',y===x));const f=x.dataset.f;c.forEach(k=>k.hidden=!(f==='All'||k.dataset.cat===f));}));})();</script>` + foot();
+  return { url, html };
+}
+function caseStudy(w) {
+  const url = `/work/${w.slug}`;
+  const title = `${w.client} Case Study: ${w.metrics[0][0]} ${w.metrics[0][1]} | Brandeeze`;
+  const desc = trim(`${w.headline}. ${w.summary}`, 158);
+  const crumbItems = [["Home", "/"], ["Work", "/work"], [w.client, url]];
+  const related = WORK.filter((o) => o !== w && o.cat === w.cat).slice(0, 3);
+  const svcLinks = [...new Set(w.services.map((s) => SVC_LINK[s]).filter(Boolean))];
+  const html = head({ title, desc, url, schema: { "@context": "https://schema.org", "@graph": [ORG, crumbSchema(crumbItems),
+      { "@type": "Article", headline: `${w.client}: ${w.headline}`, description: w.summary, url: SITE + url, image: w.proof || SITE + "/assets/og-image.jpg",
+        author: { "@id": SITE + "/#org" }, publisher: { "@id": SITE + "/#org" }, about: { "@type": "Organization", name: w.client, ...(w.site ? { url: w.site } : {}) }, keywords: w.services.join(", ") }] } }) +
+    `<section class="hero h-split"><div class="wrap">${crumbs(crumbItems)}<div class="grid2 end"><div><span class="label">${esc(w.cat)} · ${esc(w.loc)}</span><h1 class="h1-case">${esc(w.headline)}</h1><p class="lead">${esc(w.client)}${w.duration ? " · " + esc(w.duration) : ""}</p></div><div>${cover(w, true)}</div></div>
+    <div class="stats4">${w.metrics.map(([k, v]) => `<div><b>${esc(k)}</b><span>${esc(v)}</span></div>`).join("")}</div></div></section>
+<section class="sec dark2"><div class="wrap grid2"><div><span class="label">The client</span><h2 class="h2">${esc(w.client)}</h2>${w.site ? `<p class="muted"><a class="u" href="${w.site}" target="_blank" rel="noopener">${esc(w.site.replace(/^https?:\/\//, ""))} ↗</a></p>` : ""}</div>
+  <div class="prose"><p>${esc(w.summary)}</p><p><strong>The goal:</strong> ${esc(w.objective)}</p></div></div></section>
+<section class="sec light"><div class="wrap grid2"><div><span class="label">Approach</span><h2 class="h2">What we did</h2></div><ol class="deliver">${w.strategy.map((s, i) => `<li><span class="n">${String(i + 1).padStart(2, "0")}</span><div><p class="big">${esc(s)}</p></div></li>`).join("")}</ol></div></section>
+<section class="sec dark2"><div class="wrap grid2"><div><span class="label">Results</span><h2 class="h2">What changed</h2></div><ul class="results">${w.results.map((r) => `<li>${esc(r)}</li>`).join("")}</ul></div></section>
+${w.proof ? `<section class="sec light"><div class="wrap"><span class="label">Proof</span><h2 class="h2">From the dashboard</h2><figure class="proof"><img src="${w.proof}" alt="${esc(w.client)} campaign results dashboard" loading="lazy"><figcaption>Screenshot from ${esc(w.client)}'s ${w.cat === "Websites & stores" ? "store" : w.cat === "SEO" ? "search results" : "ad account"}.</figcaption></figure></div></section>` : ""}
+<section class="sec ${w.proof ? "dark2" : "light"}"><div class="wrap grid2"><div><span class="label">Services used</span><h2 class="h2">How we can help you</h2><div class="wtags big">${w.services.map((s) => `<span>${esc(s)}</span>`).join("")}</div></div>
+  <ul class="links-list">${svcLinks.map((s) => `<li><a href="/services/${s}">${esc(SVC[s].name)}${ARROW}</a></li>`).join("")}<li><a href="/work">All case studies${ARROW}</a></li></ul></div></section>
+${related.length ? `<section class="sec light"><div class="wrap"><span class="label">More work</span><h2 class="h2">More ${esc(w.cat.toLowerCase())}</h2><div class="wgrid three">${related.map(workCard).join("")}</div></div></section>` : ""}
+<section class="sec cta"><div class="wrap"><span class="label">Next step</span><h2 class="h-xl">Your brand is next.</h2><div class="ctas"><a class="btn btn-gold" href="/Contact.dc.html">Start a project${ARROW}</a><a class="btn btn-ghost" href="/work">See all work</a></div></div></section>` + foot();
+  return { url, html };
+}
+function proofFor(svc, city, r) {
+  const co = COUNTRIES[city.cc];
+  const scored = WORK.map((w) => {
+    let s = 0;
+    if (w.groups.includes(svc.group)) s += 4;
+    if (svc.group === "data" && w.groups.includes("search")) s += 3;
+    if (city.ind.includes(w.ind)) s += 2;
+    if (w.cc === city.cc) s += 3; else if (COUNTRIES[w.cc] && COUNTRIES[w.cc].region === co.region) s += 1;
+    if (w.featured) s += 1;
+    return [s + r() * 1.5, w];
+  }).sort((a, b) => b[0] - a[0]);
+  return scored.slice(0, 3).map((x) => x[1]);
+}
+
 /* ---------------- build ---------------- */
 function write(url, html) {
   const dir = path.join(OUT, url);
@@ -269,12 +338,15 @@ for (const c of CITIES) if (fs.existsSync(path.join(OUT, c.slug))) throw new Err
 const urls = ["/", "/locations"];
 let n = 0;
 const L = locations(); write(L.url, L.html);
+const WI = workIndex(); write(WI.url, WI.html);
+for (const w of WORK) { const c = caseStudy(w); write(c.url, c.html); }
+for (const c of CITIES) if (c.slug === "work") throw new Error("slug clash");
 for (const svc of SERVICES) { const p = serviceHub(svc); write(p.url, p.html); urls.push(p.url); }
 for (const city of CITIES) {
   const h = cityHub(city); write(h.url, h.html); urls.push(h.url);
   for (const svc of SERVICES) { const p = servicePage(svc, city); write(p.url, p.html); urls.push(p.url); n++; }
 }
-urls.push("/Work.dc.html", "/Contact.dc.html");
+urls.push("/work", ...WORK.map((w) => "/work/" + w.slug), "/Contact.dc.html");
 fs.writeFileSync(path.join(OUT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${TODAY}</lastmod></url>`).join("\n")}\n</urlset>\n`);
 fs.writeFileSync(path.join(OUT, "robots.txt"), `User-agent: *\nAllow: /\nDisallow: /classic\nDisallow: /Home.dc.html\nDisallow: /Home%20v1.dc.html\n\nSitemap: ${SITE}/sitemap.xml\n`);
 console.log(`Built ${n} service×city pages, ${CITIES.length} city hubs, ${SERVICES.length} service hubs, ${urls.length} sitemap URLs.`);

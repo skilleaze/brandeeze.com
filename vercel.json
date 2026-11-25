@@ -15,12 +15,20 @@
       "destination": "/Service.dc.html"
     },
     {
-      "source": "/work",
-      "destination": "/Work.dc.html"
-    },
-    {
       "source": "/contact",
       "destination": "/Contact.dc.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/Work.dc.html",
+      "destination": "/work",
+      "permanent": true
+    },
+    {
+      "source": "/Home.dc.html",
+      "destination": "/",
+      "permanent": true
     }
   ]
 }
