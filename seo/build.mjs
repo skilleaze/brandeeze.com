@@ -356,13 +356,14 @@ urls.push("/work", ...WORK.map((w) => "/work/" + w.slug), "/Contact.dc.html");
 {
   const MAP = { branding: ["brand"], video: ["brand", "social"], performance: ["search"], social: ["social"], automation: ["automation"], web: ["web"] };
   const BG = { "Branding": "radial-gradient(circle at 75% 30%,#EBBD4F 0 10%,transparent 11%),linear-gradient(160deg,#96690A,#1F2235 60%)", "E-commerce growth": "radial-gradient(circle at 85% 15%,#F3D389 0,#E3A419 22%,transparent 52%),#1F2235", "Lead generation": "repeating-linear-gradient(120deg,rgba(227,164,25,.9) 0 14px,transparent 14px 46px),#2E3250", "SEO": "radial-gradient(circle at 80% 40%,transparent 0 16%,rgba(227,164,25,.9) 16.5% 18%,transparent 18.5% 30%,rgba(227,164,25,.5) 30.5% 31.5%,transparent 32%),#1F2235", "Websites & stores": "linear-gradient(160deg,#2E3250,#1F2235)", "Software & automation": "linear-gradient(160deg,#2E3250,#1F2235)" };
+  const SHOWCASE = (w) => w.images.length && ["Branding", "Websites & stores", "Software & automation"].includes(w.cat);
   const cases = {};
   for (const [k, groups] of Object.entries(MAP)) {
     const list = WORK.filter((w) => w.groups.some((g) => groups.includes(g)))
       .sort((a, b) => (b.images.length ? 2 : 0) + (b.featured ? 1 : 0) - ((a.images.length ? 2 : 0) + (a.featured ? 1 : 0)));
     cases[k] = list.slice(0, 6).map((w) => ({ href: "/work/" + w.slug, client: w.client, loc: w.loc, headline: w.headline, cat: w.cat,
-      metric: w.metrics[0][0], label: w.metrics[0][1], mo: w.images.length ? 0 : 1,
-      bg: w.images.length ? `linear-gradient(rgba(20,22,36,0) 45%,rgba(20,22,36,.55)),url(${w.images[0]}) center/cover` : BG[w.cat] }));
+      metric: w.metrics[0][0], label: w.metrics[0][1], mo: SHOWCASE(w) ? 0 : 1,
+      bg: !w.images.length ? BG[w.cat] : SHOWCASE(w) ? `linear-gradient(rgba(20,22,36,0) 45%,rgba(20,22,36,.55)),url(${w.images[0]}) center/cover` : `linear-gradient(rgba(20,22,36,.72),rgba(20,22,36,.9)),url(${w.images[0]}) center/cover` }));
   }
   const f = path.join(OUT, "Service.dc.html");
   const src = fs.readFileSync(f, "utf8");
