@@ -111,7 +111,7 @@ a:hover{color:#E3A419}
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;whatsappNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;919999999999&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;WhatsApp&quot;}}">
-const SERVICES = ["Branding", "Video & content", "Performance", "Social media", "Automation", "Web & software"];
+const SERVICES = ["Branding", "Video & content", "SEO & performance", "Social media", "Automation", "Web & software"];
 const BUDGETS = ["Under $10k", "$10k to $25k", "$25k to $75k", "$75k+"];
 class Component extends DCLogic {
   state = { picked: (() => { try { const s = new URLSearchParams(window.location.search).get("service"); if (SERVICES.includes(s)) return [s]; } catch (e) {} return ["Branding"]; })(), budget: null, sent: false };

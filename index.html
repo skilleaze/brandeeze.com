@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Brandeeze | Brands people choose</title>
-<meta name="description" content="Brandeeze is a creative agency for branding, video and content, performance marketing, social media, automation and web and software.">
+<meta name="description" content="Brandeeze is a creative agency for branding, video and content, SEO and performance marketing, social media, automation and web and software.">
 <meta name="theme-color" content="#1F2235">
 <link rel="stylesheet" href="_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/tokens/fonts.css">
 <style>
@@ -284,7 +284,7 @@ footer a:hover{color:var(--gold)}
         <span class="line-mask"><span><span class="verb" id="verb">remember.</span></span></span>
       </h1>
       <div class="foot">
-        <p class="lead"><strong>Six disciplines. One team. Zero handoffs.</strong> Strategy, identity, content, performance, automation and software, built to make people choose you.</p>
+        <p class="lead"><strong>Six disciplines. One team. Zero handoffs.</strong> Strategy, identity, content, SEO, performance, automation and software, built to make people find and choose you.</p>
         <div class="cta">
           <a class="btn btn-gold magnetic" href="Contact.dc.html" data-cursor="Let's go"><span class="fill"></span>Start a project
             <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -379,8 +379,8 @@ footer a:hover{color:var(--gold)}
       <div class="wrap">
         <span class="cap">© 2026 Brandeeze</span>
         <nav><a href="#services">Services</a><a href="Work.dc.html">Work</a><a href="Contact.dc.html">Contact</a></nav>
-        <nav><a href="Service.dc.html?s=branding">Branding</a><a href="Service.dc.html?s=performance">Performance</a><a href="Service.dc.html?s=web">Web &amp; software</a></nav>
-        <span>Branding, content, performance, social, automation and software.</span>
+        <nav><a href="Service.dc.html?s=branding">Branding</a><a href="Service.dc.html?s=performance">SEO &amp; performance</a><a href="Service.dc.html?s=web">Web &amp; software</a></nav>
+        <span>Branding, content, SEO, performance, social, automation and software.</span>
       </div>
       <div class="wordmark-xl"><img src="assets/wordmark-on-dark.svg" alt=""></div>
     </footer>
@@ -392,15 +392,15 @@ footer a:hover{color:var(--gold)}
 const SERVICES=[
  {k:"branding",name:"Branding",verb:"remember.",desc:"Strategy, naming and identity systems that make you recognisable at a glance and consistent everywhere.",tags:["Brand strategy","Naming","Identity","Brand book","Packaging"]},
  {k:"video",name:"Video & content",verb:"watch.",desc:"Films, motion and photography made for launches, feeds and screens of every size.",tags:["Brand films","Product shoots","Motion","Reels"]},
- {k:"performance",name:"Performance",verb:"buy from.",desc:"Paid media measured on revenue, not reach. We test fast, cut waste and scale what sells.",tags:["Meta & Google Ads","Funnels","CRO","Analytics"]},
+ {k:"performance",name:"SEO & performance",verb:"find.",desc:"Get found on Google and in AI answers, then turn that attention into sales with paid media measured on revenue, not reach.",tags:["SEO","Local SEO","Google & Meta Ads","CRO","Analytics"]},
  {k:"social",name:"Social media",verb:"follow.",desc:"Always-on channels with a voice people follow, plan for and share.",tags:["Strategy","Content calendar","Community","Creators"]},
  {k:"automation",name:"Automation",verb:"rely on.",desc:"CRM, workflows and AI agents that take busywork off your sales and operations teams.",tags:["CRM setup","WhatsApp flows","Email","AI agents"]},
- {k:"web",name:"Web & software",verb:"choose.",desc:"Websites, stores and apps engineered to load fast, convert and scale with you.",tags:["Websites","E-commerce","Web apps","SEO"]}
+ {k:"web",name:"Web & software",verb:"choose.",desc:"Websites, stores and apps engineered to load fast, convert and scale with you.",tags:["Websites","E-commerce","Web apps","UX & UI"]}
 ];
 const WORK=[
  {name:"Project name",tags:"Branding · Web",img:"assets/sunset.jpg"},
  {name:"Project name",tags:"Video · Social",art:"a1"},
- {name:"Project name",tags:"Performance",img:"assets/lake-bw.jpg"},
+ {name:"Project name",tags:"SEO & performance",img:"assets/lake-bw.jpg"},
  {name:"Project name",tags:"Automation · Software",art:"a2"},
  {name:"Project name",tags:"Branding · Packaging",art:"a3"},
  {name:"Project name",tags:"Social · Creators",art:"a4"}
@@ -413,7 +413,7 @@ window.BZ={activeService:0,scene:0};
 (function(){
   const tk=document.getElementById("ticker");
   tk.innerHTML=SERVICES.map((s,i)=>`<a href="Service.dc.html?s=${s.k}" data-i="${i}"><span class="bar"><i></i></span><span><span class="n">0${i+1}</span> <span class="t">${s.name}</span></span></a>`).join("");
-  const mqText=["Branding","Video & content","Performance","Social media","Automation","Web & software"];
+  const mqText=["Branding","Video & content","SEO & performance","Social media","Automation","Web & software"];
   const mq=mqText.map(t=>`<span>${t}</span>`).join("");
   document.getElementById("mq1").innerHTML=mq+mq;
   const mq2=["Brands people choose","One team","One strategy","One standard of craft"].map(t=>`<span>${t}</span>`).join("");
