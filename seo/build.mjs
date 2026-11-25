@@ -288,7 +288,8 @@ function workIndex() {
 }
 function caseStudy(w) {
   const url = `/work/${w.slug}`;
-  const title = `${w.client} Case Study: ${w.metrics[0][0]} ${w.metrics[0][1]} | Brandeeze`;
+  const KIND = { "Branding": "Brand Identity", "Websites & stores": "Website", "Software & automation": "Software" };
+  const title = KIND[w.cat] ? `${w.client}: ${KIND[w.cat]} Case Study | Brandeeze` : `${w.client} Case Study: ${w.metrics[0][0]} ${w.metrics[0][1]} | Brandeeze`;
   const desc = trim(`${w.headline}. ${w.summary}`, 158);
   const crumbItems = [["Home", "/"], ["Work", "/work"], [w.client, url]];
   const related = WORK.filter((o) => o !== w && o.cat === w.cat).slice(0, 3);
