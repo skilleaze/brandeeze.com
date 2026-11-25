@@ -450,7 +450,7 @@ window.BZ={activeService:0,scene:0};
   const el=document.getElementById("count"),ld=document.getElementById("loader");
   let n=0;const start=performance.now(),dur=RM?200:2300;
   function step(t){
-    n=Math.min(100,Math.round(((t-start)/dur)**.7*100));
+    n=Math.min(100,Math.round(Math.max(0,(performance.now()-start)/dur)**.7*100))||0;
     el.textContent=n;window.BZ.loadP=n/100;
     if(n<100)requestAnimationFrame(step);
     else setTimeout(()=>{ld.classList.add("done");document.body.classList.remove("loading");document.body.classList.add("ready");window.BZ.introAt=performance.now();setTimeout(()=>ld.remove(),900)},450);
@@ -659,7 +659,7 @@ function frame(){
   const target=window.BZ.scene||0;f+=(target-f)*(RM?1:.07);
   const i0=Math.floor(f),i1=Math.min(STATES.length-1,i0+1),k=ease(f-i0);
   mx+=((window.BZ.mx||0)-mx)*.05;my+=((window.BZ.my||0)-my)*.05;
-  const lp=RM?1:(window.BZ.loadP||0);
+  const lp=RM?1:(Number.isFinite(window.BZ.loadP)?window.BZ.loadP:0);
   const ia=window.BZ.introAt?Math.min(1,(performance.now()-window.BZ.introAt)/1500):0;
   const fly=RM?1:ease(ia);
   let G=null;
