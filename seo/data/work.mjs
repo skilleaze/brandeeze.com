@@ -425,7 +425,6 @@ export const WORK = [
 export const VENTURES = [
   { name: "WhatsEaze", url: "https://whatseaze.com", text: "Our AI assistant that answers every WhatsApp message in seconds, day and night, and moves each chat towards a sale." },
   { name: "Skilleaze", url: "https://www.skilleaze.com", text: "A career platform for job seekers in India, the UAE and the GCC: CV writing, LinkedIn optimisation, portfolio websites and interview coaching." },
-  { name: "StrattIQ", url: "https://strattiq.com", text: "Scaled Agile Framework (SAFe) training and certification for professionals and enterprises." },
 ];
 
 export const HEADLINE_STATS = [["$2M+", "Revenue generated for clients"], ["50+", "Businesses scaled"], ["10+", "Countries served"], ["6.2x", "Average ROAS"]];

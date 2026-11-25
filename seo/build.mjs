@@ -239,7 +239,8 @@ function serviceHub(svc) {
       { "@type": "Service", name: svc.name, serviceType: svc.name, url: SITE + url, provider: { "@id": SITE + "/#org" }, areaServed: CITIES.map((c) => ({ "@type": "City", name: c.name })) }] } }) +
     `<section class="hero h-split"><div class="wrap">${crumbs(crumbItems)}<div class="grid2 end"><div><span class="label">${esc(g.label)}</span><h1>${esc(svc.name)}</h1><p class="lead">${esc(plain(svc.leads[1] || svc.leads[0]))}</p><div class="ctas"><a class="btn btn-gold" href="/Contact.dc.html">Get a free consultation${ARROW}</a></div></div><div class="hero-side">${bars()}</div></div></div></section>
 <section class="sec dark2"><div class="wrap grid2"><div><span class="label">Overview</span><h2 class="h2">What's included</h2><p class="muted">${esc(plain(svc.what[0]))}</p></div><ol class="deliver">${svc.deliver.map((d, i) => `<li><span class="n">0${i + 1}</span><div><h3>${esc(plain(d[0]))}</h3><p>${esc(plain(d[1]))}</p></div></li>`).join("")}</ol></div></section>
-<section class="sec light"><div class="wrap"><span class="label">Locations</span><h2 class="h2">${esc(svc.name)} by city</h2><div class="hub">${byRegion.map(([rg, cs]) => `<div><h3>${esc(rg)}</h3><ul>${cs.map((c) => `<li><a href="/${c.slug}/${svc.slug}">${esc(svc.name)} in ${esc(c.name)}</a></li>`).join("")}</ul></div>`).join("")}</div></div></section>
+${(() => { const cs = WORK.filter((w) => w.groups.includes(svc.group) || (svc.group === "agency" && w.featured) || (svc.group === "data" && w.groups.includes("search")) || (svc.group === "video" && w.groups.some((g) => g === "brand" || g === "social"))).sort((x, y) => (y.images.length ? 2 : 0) + (y.featured ? 1 : 0) - ((x.images.length ? 2 : 0) + (x.featured ? 1 : 0))).slice(0, 6); return cs.length ? `<section class="sec light"><div class="wrap"><span class="label">Case studies</span><h2 class="h2">${esc(svc.name)}: proof, not promises</h2><div class="wgrid three">${cs.map(workCard).join("")}</div><p class="muted" style="margin-top:24px"><a class="u" href="/work">See all ${WORK.length} case studies</a></p></div></section>` : ""; })()}
+<section class="sec dark2"><div class="wrap"><span class="label">Locations</span><h2 class="h2">${esc(svc.name)} by city</h2><div class="hub">${byRegion.map(([rg, cs]) => `<div><h3>${esc(rg)}</h3><ul>${cs.map((c) => `<li><a href="/${c.slug}/${svc.slug}">${esc(svc.name)} in ${esc(c.name)}</a></li>`).join("")}</ul></div>`).join("")}</div></div></section>
 <section class="sec cta"><div class="wrap"><span class="label">Next step</span><h2 class="h-xl">Your brand is next.</h2><div class="ctas"><a class="btn btn-gold" href="/Contact.dc.html">Start a project${ARROW}</a></div></div></section>` + foot();
   return { url, html };
 }
@@ -350,6 +351,24 @@ for (const city of CITIES) {
   for (const svc of SERVICES) { const p = servicePage(svc, city); write(p.url, p.html); urls.push(p.url); n++; }
 }
 urls.push("/work", ...WORK.map((w) => "/work/" + w.slug), "/Contact.dc.html");
+
+/* ---------------- inject case studies into the JS service page ---------------- */
+{
+  const MAP = { branding: ["brand"], video: ["brand", "social"], performance: ["search"], social: ["social"], automation: ["automation"], web: ["web"] };
+  const BG = { "Branding": "radial-gradient(circle at 75% 30%,#EBBD4F 0 10%,transparent 11%),linear-gradient(160deg,#96690A,#1F2235 60%)", "E-commerce growth": "radial-gradient(circle at 85% 15%,#F3D389 0,#E3A419 22%,transparent 52%),#1F2235", "Lead generation": "repeating-linear-gradient(120deg,rgba(227,164,25,.9) 0 14px,transparent 14px 46px),#2E3250", "SEO": "radial-gradient(circle at 80% 40%,transparent 0 16%,rgba(227,164,25,.9) 16.5% 18%,transparent 18.5% 30%,rgba(227,164,25,.5) 30.5% 31.5%,transparent 32%),#1F2235", "Websites & stores": "linear-gradient(160deg,#2E3250,#1F2235)", "Software & automation": "linear-gradient(160deg,#2E3250,#1F2235)" };
+  const cases = {};
+  for (const [k, groups] of Object.entries(MAP)) {
+    const list = WORK.filter((w) => w.groups.some((g) => groups.includes(g)))
+      .sort((a, b) => (b.images.length ? 2 : 0) + (b.featured ? 1 : 0) - ((a.images.length ? 2 : 0) + (a.featured ? 1 : 0)));
+    cases[k] = list.slice(0, 6).map((w) => ({ href: "/work/" + w.slug, client: w.client, loc: w.loc, headline: w.headline, cat: w.cat,
+      metric: w.metrics[0][0], label: w.metrics[0][1], mo: w.images.length ? 0 : 1,
+      bg: w.images.length ? `linear-gradient(rgba(20,22,36,0) 45%,rgba(20,22,36,.55)),url(${w.images[0]}) center/cover` : BG[w.cat] }));
+  }
+  const f = path.join(OUT, "Service.dc.html");
+  const src = fs.readFileSync(f, "utf8");
+  if (!src.includes("const CASES = {}; /*BUILD:CASES*/")) throw new Error("Service.dc.html placeholder missing");
+  fs.writeFileSync(f, src.replace("const CASES = {}; /*BUILD:CASES*/", "const CASES = " + JSON.stringify(cases).replace(/<\//g, "<\\/") + ";"));
+}
 fs.writeFileSync(path.join(OUT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${TODAY}</lastmod></url>`).join("\n")}\n</urlset>\n`);
 fs.writeFileSync(path.join(OUT, "robots.txt"), `User-agent: *\nAllow: /\nDisallow: /classic\nDisallow: /Home.dc.html\nDisallow: /Home%20v1.dc.html\n\nSitemap: ${SITE}/sitemap.xml\n`);
 console.log(`Built ${n} service×city pages, ${CITIES.length} city hubs, ${SERVICES.length} service hubs, ${urls.length} sitemap URLs.`);
