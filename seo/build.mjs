@@ -59,7 +59,8 @@ function fill(str, city, ctx) {
 
 /* ---------------- shared chrome ---------------- */
 const ARROW = '<svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
-function head({ title, desc, url, schema }) {
+function head({ title, desc, url, schema, og }) {
+  const ogi = SITE + (og && fs.existsSync(path.join(ROOT, og.replace(/^\//, ""))) ? og : "/assets/og/home.jpg");
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,8 +72,9 @@ function head({ title, desc, url, schema }) {
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Brandeeze">
 <meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${SITE}${url}">
-<meta property="og:image" content="${SITE}/assets/og-image.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${SITE}/assets/og-image.jpg">
+<meta property="og:image" content="${ogi}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${esc(title)}">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${ogi}"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(desc)}">
+<meta property="article:modified_time" content="${TODAY}">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#1F2235">
 <link rel="preload" href="/_ds/brandeez-design-system-fbe1068f-90f0-4bec-97b9-453ac5cf9fae/assets/fonts/archivo-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -100,8 +102,13 @@ function foot() {
 }
 const crumbs = (items) => `<nav class="crumbs" aria-label="Breadcrumb">${items.map(([n, u], i) => i === items.length - 1 ? `<span>${esc(n)}</span>` : `<a href="${u}">${esc(n)}</a>`).join("<i>/</i>")}</nav>`;
 const crumbSchema = (items) => ({ "@type": "BreadcrumbList", itemListElement: items.map(([n, u], i) => ({ "@type": "ListItem", position: i + 1, name: n, item: SITE + u })) });
-const ORG = { "@type": "ProfessionalService", "@id": SITE + "/#org", name: "Brandeeze", url: SITE + "/", logo: SITE + "/assets/wordmark-on-dark.svg", image: SITE + "/assets/og-image.jpg", email: "hello@brandeeze.com",
+const ORG = { "@type": ["ProfessionalService", "Organization"], "@id": SITE + "/#org", name: "Brandeeze", url: SITE + "/", logo: SITE + "/assets/wordmark-on-dark.svg", image: SITE + "/assets/og-image.jpg", email: "hello@brandeeze.com", slogan: "Brands people choose.",
+  description: "Brandeeze is a Dubai-based creative and marketing agency for branding, video and content, SEO and performance marketing, social media, automation and web and software.",
+  knowsAbout: ["Branding", "Logo design", "Video production", "SEO", "Local SEO", "Google Ads", "Meta ads", "Performance marketing", "Social media marketing", "Marketing automation", "WhatsApp automation", "CRM", "AI automation", "Web design", "E-commerce development", "Software development", "Data analytics"],
+  areaServed: [{ "@type": "Place", name: "Worldwide" }, { "@type": "Country", name: "United Arab Emirates" }, { "@type": "Country", name: "Saudi Arabia" }, { "@type": "Country", name: "Qatar" }, { "@type": "Country", name: "India" }],
+  contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "hello@brandeeze.com", availableLanguage: ["English", "Arabic"] },
   address: { "@type": "PostalAddress", addressLocality: "Dubai", addressCountry: "AE" } };
+const webPage = (url, name, desc, about) => ({ "@type": "WebPage", "@id": SITE + url + "#webpage", url: SITE + url, name, description: desc, inLanguage: "en", isPartOf: { "@type": "WebSite", "@id": SITE + "/#website", name: "Brandeeze", url: SITE + "/" }, publisher: { "@id": SITE + "/#org" }, dateModified: TODAY, ...(about ? { about } : {}) });
 const bars = () => `<div class="bars" aria-hidden="true">${"<i></i>".repeat(6)}</div>`;
 
 /* ---------------- service × city page ---------------- */
@@ -198,12 +205,18 @@ function servicePage(svc, city) {
 
   const cta = `<section class="sec cta"><div class="wrap"><span class="label">Next step</span><h2 class="h-xl">${esc(pick(r, ["Your brand is next.", `Let's grow in ${city.name}.`, "Ready when you are."]))}</h2>${ctas}<p style="margin-top:22px"><a class="u" href="/brandeeze-profile.pdf" download="Brandeeze-Portfolio.pdf">Download our portfolio (PDF)</a></p></div></section>`;
 
-  const schema = { "@context": "https://schema.org", "@graph": [ORG,
+  const schema = { "@context": "https://schema.org", "@graph": [ORG, webPage(url, title, desc, { "@type": "City", name: city.name }),
     { "@type": "Service", name: `${sName} in ${city.name}`, serviceType: sName, url: SITE + url, description: lead, provider: { "@id": SITE + "/#org" },
       areaServed: { "@type": "City", name: city.name, containedInPlace: { "@type": "Country", name: co.name.replace(/^the /, "") } } },
     crumbSchema(crumbItems),
     { "@type": "FAQPage", mainEntity: faqSel.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }] };
-  return { url, html: head({ title, desc, url, schema }) + hero + body + cta + foot() };
+  const quick = `<section class="sec quick"><div class="wrap"><div class="qa"><span class="label">In short</span><dl>
+    <div><dt>What</dt><dd>${esc(city.slug === "dubai" ? `Brandeeze provides ${topic} for businesses in Dubai, from our studio in the city.` : `Brandeeze provides ${topic} for businesses in ${city.name}, ${co.short}, from our base in Dubai.`)}</dd></div>
+    <div><dt>Includes</dt><dd>${esc(list(deliver.slice(0, 4).map((d) => lc(F(d[0])))))}.</dd></div>
+    <div><dt>Working together</dt><dd>${esc(`${ctx.tz.short}; quotes in ${co.cur[0] === "USD" ? "USD" : co.cur[0] + " or USD"}; content in ${list(co.lang.slice(0, 2))}.`)}</dd></div>
+    <div><dt>Proof</dt><dd><a class="u" href="/work/${proofs[0].slug}">${esc(proofs[0].client)}</a>: ${esc(proofs[0].headline)}.</dd></div>
+  </dl></div></div></section>`;
+  return { url, html: head({ title, desc, url, schema, og: `/assets/og/city-${city.slug}.jpg` }) + hero + quick + body + cta + foot() };
 }
 
 /* ---------------- city hub ---------------- */
@@ -215,8 +228,8 @@ function cityHub(city) {
   const desc = trim(`Brandeeze helps ${city.name} businesses grow with branding, video, SEO, paid ads, social media, automation and web design. One team, clear results.`, 158);
   const crumbItems = [["Home", "/"], ["Locations", "/locations"], [city.name, url]];
   const groups = GROUP_ORDER.map((gk) => [GROUPS[gk].label, SERVICES.filter((s) => s.group === gk)]);
-  const html = head({ title, desc, url, schema: { "@context": "https://schema.org", "@graph": [ORG, crumbSchema(crumbItems),
-      { "@type": "CollectionPage", name: title, url: SITE + url, about: { "@type": "City", name: city.name } }] } }) +
+  const html = head({ title, desc, url, og: `/assets/og/city-${city.slug}.jpg`, schema: { "@context": "https://schema.org", "@graph": [ORG, crumbSchema(crumbItems),
+      { "@type": "CollectionPage", name: title, url: SITE + url, dateModified: TODAY, about: { "@type": "City", name: city.name } }] } }) +
     `<section class="hero h-giant"><div class="ghost" aria-hidden="true">${esc(city.name)}</div><div class="wrap">${crumbs(crumbItems)}<span class="label">${esc(cap(co.short))} · ${esc(co.region)}</span><h1>Marketing agency in ${esc(city.name)}</h1><div class="grid2 end"><p class="lead">${esc(`Branding, content, SEO, paid media, social, automation and web for ${city.name} businesses, delivered by one team.`)}</p><div class="ctas"><a class="btn btn-gold" href="/Contact.dc.html">Get a free consultation${ARROW}</a></div></div></div></section>
 <section class="sec dark2"><div class="wrap grid2"><div><span class="label">${esc(city.name)}</span><h2 class="h2">Marketing in ${esc(city.name)}</h2></div><div class="prose"><p>${esc(`${city.name} is ${city.angle}. ${cap(co.short)} is ${co.note}.`)}</p><p>${esc(co.search)} ${esc(ctx.tz.long)}</p></div></div></section>
 <section class="sec light"><div class="wrap"><span class="label">Services</span><h2 class="h2">Everything we offer in ${esc(city.name)}</h2>
@@ -235,7 +248,7 @@ function serviceHub(svc) {
   const desc = trim(plain(svc.leads[0]) + " Available in " + CITIES.length + " cities worldwide.", 158);
   const crumbItems = [["Home", "/"], ["Services", "/#services"], [svc.name, url]];
   const byRegion = REGION_ORDER.map((rg) => [rg, CITIES.filter((c) => COUNTRIES[c.cc].region === rg)]).filter(([, cs]) => cs.length);
-  const html = head({ title, desc, url, schema: { "@context": "https://schema.org", "@graph": [ORG, crumbSchema(crumbItems),
+  const html = head({ title, desc, url, og: `/assets/og/svc-${svc.slug}.jpg`, schema: { "@context": "https://schema.org", "@graph": [ORG, crumbSchema(crumbItems), webPage(url, title, desc),
       { "@type": "Service", name: svc.name, serviceType: svc.name, url: SITE + url, provider: { "@id": SITE + "/#org" }, areaServed: CITIES.map((c) => ({ "@type": "City", name: c.name })) }] } }) +
     `<section class="hero h-split"><div class="wrap">${crumbs(crumbItems)}<div class="grid2 end"><div><span class="label">${esc(g.label)}</span><h1>${esc(svc.name)}</h1><p class="lead">${esc(plain(svc.leads[1] || svc.leads[0]))}</p><div class="ctas"><a class="btn btn-gold" href="/Contact.dc.html">Get a free consultation${ARROW}</a></div></div><div class="hero-side">${bars()}</div></div></div></section>
 <section class="sec dark2"><div class="wrap grid2"><div><span class="label">Overview</span><h2 class="h2">What's included</h2><p class="muted">${esc(plain(svc.what[0]))}</p></div><ol class="deliver">${svc.deliver.map((d, i) => `<li><span class="n">0${i + 1}</span><div><h3>${esc(plain(d[0]))}</h3><p>${esc(plain(d[1]))}</p></div></li>`).join("")}</ol></div></section>
@@ -251,7 +264,7 @@ function locations() {
   const title = "Locations: Marketing & Branding Agency Worldwide | Brandeeze";
   const desc = `Brandeeze works with brands in ${CITIES.length} cities, from Dubai and Riyadh to London and New York. Find marketing, branding, SEO and web services in your city.`;
   const byRegion = REGION_ORDER.map((rg) => [rg, CITIES.filter((c) => COUNTRIES[c.cc].region === rg)]).filter(([, cs]) => cs.length);
-  const html = head({ title, desc, url, schema: { "@context": "https://schema.org", "@graph": [ORG, crumbSchema([["Home", "/"], ["Locations", url]])] } }) +
+  const html = head({ title, desc, url, og: "/assets/og/locations.jpg", schema: { "@context": "https://schema.org", "@graph": [ORG, webPage(url, title, desc), crumbSchema([["Home", "/"], ["Locations", url]])] } }) +
     `<section class="hero h-split"><div class="wrap">${crumbs([["Home", "/"], ["Locations", url]])}<div class="grid2 end"><div><span class="label">Based in Dubai · Working worldwide</span><h1>Where we work</h1><p class="lead">${esc(`From our base in Dubai we work with brands in ${CITIES.length} cities across ${Object.keys(COUNTRIES).length} countries. Pick your city to see how we help businesses there.`)}</p></div><div class="hero-side">${bars()}</div></div></div></section>
 <section class="sec light"><div class="wrap"><div class="hub">${byRegion.map(([rg, cs]) => `<div><h3>${esc(rg)}</h3><ul>${cs.map((c) => `<li><a href="/${c.slug}">${esc(c.name)}, ${esc(COUNTRIES[c.cc].short.replace(/^the /, ""))}</a></li>`).join("")}</ul></div>`).join("")}</div></div></section>` + foot();
   return { url, html };
@@ -274,8 +287,8 @@ function workIndex() {
   const title = "Our Work: Case Studies & Client Results | Brandeeze";
   const desc = `${WORK.length} client projects across e-commerce, lead generation, SEO and websites, from Dubai and Doha to Melbourne and New York. Real numbers, real brands.`;
   const crumbItems = [["Home", "/"], ["Work", url]];
-  const html = head({ title, desc, url, schema: { "@context": "https://schema.org", "@graph": [ORG, crumbSchema(crumbItems),
-      { "@type": "CollectionPage", name: title, url: SITE + url, hasPart: WORK.map((w) => ({ "@type": "CreativeWork", name: `${w.client}: ${w.headline}`, url: `${SITE}/work/${w.slug}` })) }] } }) +
+  const html = head({ title, desc, url, og: "/assets/og/work.jpg", schema: { "@context": "https://schema.org", "@graph": [ORG, crumbSchema(crumbItems),
+      { "@type": "CollectionPage", name: title, url: SITE + url, dateModified: TODAY, hasPart: WORK.map((w) => ({ "@type": "CreativeWork", name: `${w.client}: ${w.headline}`, url: `${SITE}/work/${w.slug}` })) }] } }) +
     `<section class="hero h-split"><div class="wrap">${crumbs(crumbItems)}<div class="grid2 end"><div><span class="label">Selected work</span><h1>Proof, not promises.</h1><p class="lead">${esc(`${WORK.length} projects for brands across ${new Set(WORK.map((w) => w.cc)).size} countries. Every number below comes from the client's own ad accounts, analytics or store data.`)}</p><div class="ctas"><a class="btn btn-gold" href="${PROFILE_PDF}" download="Brandeeze-Portfolio.pdf">Download our portfolio (PDF)${ARROW}</a><a class="btn btn-ghost" href="${PROFILE_PDF}" target="_blank" rel="noopener">View online</a></div></div><div class="hero-side">${bars()}</div></div>
     <div class="stats4">${HEADLINE_STATS.map(([k, v]) => `<div><b>${esc(k)}</b><span>${esc(v)}</span></div>`).join("")}</div></div></section>
 <section class="sec light"><div class="wrap">
@@ -295,8 +308,8 @@ function caseStudy(w) {
   const crumbItems = [["Home", "/"], ["Work", "/work"], [w.client, url]];
   const related = WORK.filter((o) => o !== w && o.cat === w.cat).slice(0, 3);
   const svcLinks = [...new Set(w.services.map((s) => SVC_LINK[s]).filter(Boolean))];
-  const html = head({ title, desc, url, schema: { "@context": "https://schema.org", "@graph": [ORG, crumbSchema(crumbItems),
-      { "@type": "Article", headline: `${w.client}: ${w.headline}`, description: w.summary, url: SITE + url, image: w.images.length ? SITE + w.images[0] : (w.proof || SITE + "/assets/og-image.jpg"),
+  const html = head({ title, desc, url, og: `/assets/og/work-${w.slug}.jpg`, schema: { "@context": "https://schema.org", "@graph": [ORG, crumbSchema(crumbItems),
+      { "@type": "Article", datePublished: "2026-11-25", dateModified: TODAY, inLanguage: "en", headline: `${w.client}: ${w.headline}`, description: w.summary, url: SITE + url, image: [`${SITE}/assets/og/work-${w.slug}.jpg`, ...w.images.map((i) => SITE + i)],
         author: { "@id": SITE + "/#org" }, publisher: { "@id": SITE + "/#org" }, about: { "@type": "Organization", name: w.client, ...(w.site ? { url: w.site } : {}) }, keywords: w.services.join(", ") }] } }) +
     `<section class="hero h-split"><div class="wrap">${crumbs(crumbItems)}<div class="grid2 end"><div><span class="label">${esc(w.cat)} · ${esc(w.loc)}</span><h1 class="h1-case">${esc(w.headline)}</h1><p class="lead">${esc(w.client)}${w.duration ? " · " + esc(w.duration) : ""}</p><div class="ctas">${w.pdf ? `<a class="btn btn-gold" href="${PROFILE_PDF}#page=${w.pdf}" target="_blank" rel="noopener">See it in our profile (PDF)${ARROW}</a>` : ""}${w.site ? `<a class="btn btn-ghost" href="${w.site}" target="_blank" rel="noopener">Visit ${esc(w.site.replace(/^https?:\/\/(www\.)?/, ""))} ↗</a>` : ""}${w.brandbook ? `<a class="btn btn-ghost" href="${w.brandbook}" target="_blank" rel="noopener">Brand book ↗</a>` : ""}</div></div><div>${cover(w, true)}</div></div>
     <div class="stats4">${w.metrics.map(([k, v]) => `<div><b>${esc(k)}</b><span>${esc(v)}</span></div>`).join("")}</div></div></section>
@@ -370,6 +383,33 @@ urls.push("/work", ...WORK.map((w) => "/work/" + w.slug), "/Contact.dc.html");
   if (!src.includes("const CASES = {}; /*BUILD:CASES*/")) throw new Error("Service.dc.html placeholder missing");
   fs.writeFileSync(f, src.replace("const CASES = {}; /*BUILD:CASES*/", "const CASES = " + JSON.stringify(cases).replace(/<\//g, "<\\/") + ";"));
 }
-fs.writeFileSync(path.join(OUT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${TODAY}</lastmod></url>`).join("\n")}\n</urlset>\n`);
-fs.writeFileSync(path.join(OUT, "robots.txt"), `User-agent: *\nAllow: /\nDisallow: /classic\nDisallow: /Home.dc.html\nDisallow: /Home%20v1.dc.html\n\nSitemap: ${SITE}/sitemap.xml\n`);
+const IMGS = Object.fromEntries(WORK.map((w) => ["/work/" + w.slug, [`/assets/og/work-${w.slug}.jpg`, ...w.images]]));
+fs.writeFileSync(path.join(OUT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${TODAY}</lastmod>${(IMGS[u] || []).map((i) => `<image:image><image:loc>${SITE}${i}</image:loc></image:image>`).join("")}</url>`).join("\n")}\n</urlset>\n`);
+const AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-User", "Claude-SearchBot", "PerplexityBot", "Perplexity-User", "Google-Extended", "Applebot-Extended", "Bingbot", "CCBot"];
+fs.writeFileSync(path.join(OUT, "robots.txt"), `# Brandeeze welcomes search engines and AI assistants.\nUser-agent: *\nAllow: /\nDisallow: /classic\nDisallow: /Home.dc.html\nDisallow: /Home%20v1.dc.html\n\n${AI_BOTS.map((b) => `User-agent: ${b}\nAllow: /`).join("\n\n")}\n\nSitemap: ${SITE}/sitemap.xml\n`);
+// llms.txt (summary for AI assistants) and llms-full.txt (detail)
+const llms = `# Brandeeze
+
+> Brandeeze is a creative and marketing agency based in Dubai, UAE. One team delivers six disciplines: branding, video and content, SEO and performance marketing, social media, automation (CRM, WhatsApp, AI agents) and web and software. Clients across ${new Set(WORK.map((w) => w.cc)).size}+ countries; $2M+ revenue generated for clients; 50+ businesses scaled.
+
+- Contact: hello@brandeeze.com · ${SITE}/Contact.dc.html
+- Company profile and portfolio (PDF): ${SITE}/brandeeze-profile.pdf
+- Based in: Dubai, United Arab Emirates. Works in English and Arabic.
+
+## Services
+${SERVICES.map((s) => `- [${s.name}](${SITE}/services/${s.slug}): ${s.leads[0].replace(/ in \{city\}/g, "").replace(/\{city\}/g, "your market").replace(/\{[a-z]+\}/g, "")}`).join("\n")}
+
+## Case studies
+${WORK.map((w) => `- [${w.client}](${SITE}/work/${w.slug}) (${w.cat}, ${w.loc}): ${w.headline}. ${w.metrics.map((m) => m.join(" ")).join(", ")}.`).join("\n")}
+
+## Locations
+- [All ${CITIES.length} locations](${SITE}/locations)
+${CITIES.slice(0, 20).map((c) => `- [Marketing agency in ${c.name}](${SITE}/${c.slug})`).join("\n")}
+
+## Optional
+- [Full detail for AI assistants](${SITE}/llms-full.txt)
+`;
+fs.writeFileSync(path.join(OUT, "llms.txt"), llms);
+const full = `# Brandeeze: full reference\n\n${llms.split("\n## Services")[0].replace("# Brandeeze\n\n", "")}\n\n## Services in detail\n\n${SERVICES.map((s) => `### ${s.name}\n${s.what[0].replace(/\{city\}/g, "your city").replace(/\{country\}/g, "your country").replace(/\{[a-z]+\}/g, "")}\nIncludes: ${s.deliver.map((d) => d[0].replace(/\{[a-z]+\}/g, "your city")).join("; ")}.\nURL: ${SITE}/services/${s.slug}\n`).join("\n")}\n## Case studies in detail\n\n${WORK.map((w) => `### ${w.client} — ${w.headline}\nCategory: ${w.cat}. Location: ${w.loc}.${w.duration ? " Timeframe: " + w.duration + "." : ""}\n${w.summary}\nWhat we did: ${w.strategy.join("; ")}.\nResults: ${w.results.join("; ")}.\nURL: ${SITE}/work/${w.slug}\n`).join("\n")}\n## Cities served\n${CITIES.map((c) => `${c.name} (${COUNTRIES[c.cc].name.replace(/^the /, "")}): ${SITE}/${c.slug}`).join("\n")}\n`;
+fs.writeFileSync(path.join(OUT, "llms-full.txt"), full);
 console.log(`Built ${n} service×city pages, ${CITIES.length} city hubs, ${SERVICES.length} service hubs, ${urls.length} sitemap URLs.`);
