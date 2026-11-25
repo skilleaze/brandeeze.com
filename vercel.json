@@ -1,9 +1,26 @@
 {
+  "buildCommand": "node seo/build.mjs",
+  "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/home", "destination": "/index.html" },
-    { "source": "/classic", "destination": "/Home.dc.html" },
-    { "source": "/services", "destination": "/Service.dc.html" },
-    { "source": "/work", "destination": "/Work.dc.html" },
-    { "source": "/contact", "destination": "/Contact.dc.html" }
+    {
+      "source": "/home",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/classic",
+      "destination": "/Home.dc.html"
+    },
+    {
+      "source": "/services",
+      "destination": "/Service.dc.html"
+    },
+    {
+      "source": "/work",
+      "destination": "/Work.dc.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/Contact.dc.html"
+    }
   ]
 }
