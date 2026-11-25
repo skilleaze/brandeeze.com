@@ -83,7 +83,7 @@ function head({ title, desc, url, schema }) {
 <body>
 <header class="nav"><div class="in">
   <a href="/" class="logo" aria-label="Brandeeze home"><img src="/assets/wordmark-on-dark.svg" alt="Brandeeze" width="156" height="18"></a>
-  <nav class="links"><a href="/#services">Services</a><a href="/work">Work</a><a href="/locations">Locations</a><a class="btn btn-gold btn-sm" href="/Contact.dc.html">Start a project</a></nav>
+  <nav class="links"><a href="/#services">Services</a><a href="/work">Work</a><a href="/locations">Locations</a><a href="/brandeeze-profile.pdf" download="Brandeeze-Portfolio.pdf">Portfolio ↓</a><a class="btn btn-gold btn-sm" href="/Contact.dc.html">Start a project</a></nav>
 </div></header>
 <main>`;
 }
@@ -93,7 +93,7 @@ function foot() {
   <div><img src="/assets/wordmark-on-dark.svg" alt="Brandeeze" width="156" height="18"><p>A creative and marketing agency based in Dubai, working with brands across the Middle East and around the world.</p></div>
   <nav><span class="cap">Services</span><a href="/services/marketing-agency">Marketing</a><a href="/services/branding-agency">Branding</a><a href="/services/seo-agency">SEO</a><a href="/services/social-media-agency">Social media</a><a href="/services/web-design-company">Web design</a></nav>
   <nav><span class="cap">Popular</span><a href="/dubai">Dubai</a><a href="/abu-dhabi">Abu Dhabi</a><a href="/riyadh">Riyadh</a><a href="/london">London</a><a href="/locations">All locations</a></nav>
-  <nav><span class="cap">Brandeeze</span><a href="/">Home</a><a href="/work">Work</a><a href="/brandeeze-profile.pdf" target="_blank" rel="noopener">Company profile (PDF)</a><a href="/Contact.dc.html">Contact</a><a href="mailto:hello@brandeeze.com">hello@brandeeze.com</a></nav>
+  <nav><span class="cap">Brandeeze</span><a href="/">Home</a><a href="/work">Work</a><a href="/brandeeze-profile.pdf" download="Brandeeze-Portfolio.pdf">Download portfolio (PDF)</a><a href="/Contact.dc.html">Contact</a><a href="mailto:hello@brandeeze.com">hello@brandeeze.com</a></nav>
 </div><div class="wrap fine">© ${new Date().getFullYear()} Brandeeze. All rights reserved.</div></footer>
 </body>
 </html>`;
@@ -196,7 +196,7 @@ function servicePage(svc, city) {
   else if (layout === 1) hero = `<section class="hero h-giant"><div class="ghost" aria-hidden="true">${esc(city.name)}</div><div class="wrap">${crumbs(crumbItems)}<span class="label">${esc(cap(co.short))} · ${esc(co.region)}</span><h1>${esc(h1)}</h1><div class="grid2 end"><p class="lead">${esc(lead)}</p>${ctas}</div>${facts}</div></section>`;
   else hero = `<section class="hero h-edit"><div class="wrap">${crumbs(crumbItems)}<div class="grid2 end"><div><span class="idx">${String(SERVICES.indexOf(svc) + 1).padStart(2, "0")} / ${SERVICES.length}</span><h1>${esc(h1)}</h1></div><div><p class="lead">${esc(lead)}</p>${ctas}</div></div></div><div class="ticker" aria-hidden="true"><div>${[...deliver, ...deliver].map((d) => `<span>${esc(F(d[0]))}</span>`).join("")}</div></div></section>`;
 
-  const cta = `<section class="sec cta"><div class="wrap"><span class="label">Next step</span><h2 class="h-xl">${esc(pick(r, ["Your brand is next.", `Let's grow in ${city.name}.`, "Ready when you are."]))}</h2>${ctas}</div></section>`;
+  const cta = `<section class="sec cta"><div class="wrap"><span class="label">Next step</span><h2 class="h-xl">${esc(pick(r, ["Your brand is next.", `Let's grow in ${city.name}.`, "Ready when you are."]))}</h2>${ctas}<p style="margin-top:22px"><a class="u" href="/brandeeze-profile.pdf" download="Brandeeze-Portfolio.pdf">Download our portfolio (PDF)</a></p></div></section>`;
 
   const schema = { "@context": "https://schema.org", "@graph": [ORG,
     { "@type": "Service", name: `${sName} in ${city.name}`, serviceType: sName, url: SITE + url, description: lead, provider: { "@id": SITE + "/#org" },
@@ -276,7 +276,7 @@ function workIndex() {
   const crumbItems = [["Home", "/"], ["Work", url]];
   const html = head({ title, desc, url, schema: { "@context": "https://schema.org", "@graph": [ORG, crumbSchema(crumbItems),
       { "@type": "CollectionPage", name: title, url: SITE + url, hasPart: WORK.map((w) => ({ "@type": "CreativeWork", name: `${w.client}: ${w.headline}`, url: `${SITE}/work/${w.slug}` })) }] } }) +
-    `<section class="hero h-split"><div class="wrap">${crumbs(crumbItems)}<div class="grid2 end"><div><span class="label">Selected work</span><h1>Proof, not promises.</h1><p class="lead">${esc(`${WORK.length} projects for brands across ${new Set(WORK.map((w) => w.cc)).size} countries. Every number below comes from the client's own ad accounts, analytics or store data.`)}</p><div class="ctas"><a class="btn btn-gold" href="${PROFILE_PDF}" target="_blank" rel="noopener">Download company profile (PDF)${ARROW}</a></div></div><div class="hero-side">${bars()}</div></div>
+    `<section class="hero h-split"><div class="wrap">${crumbs(crumbItems)}<div class="grid2 end"><div><span class="label">Selected work</span><h1>Proof, not promises.</h1><p class="lead">${esc(`${WORK.length} projects for brands across ${new Set(WORK.map((w) => w.cc)).size} countries. Every number below comes from the client's own ad accounts, analytics or store data.`)}</p><div class="ctas"><a class="btn btn-gold" href="${PROFILE_PDF}" download="Brandeeze-Portfolio.pdf">Download our portfolio (PDF)${ARROW}</a><a class="btn btn-ghost" href="${PROFILE_PDF}" target="_blank" rel="noopener">View online</a></div></div><div class="hero-side">${bars()}</div></div>
     <div class="stats4">${HEADLINE_STATS.map(([k, v]) => `<div><b>${esc(k)}</b><span>${esc(v)}</span></div>`).join("")}</div></div></section>
 <section class="sec light"><div class="wrap">
   <div class="filters" role="tablist">${["All", ...CATEGORIES].map((c, i) => `<button type="button" class="chip${i ? "" : " on"}" data-f="${esc(c)}">${esc(c)} <i>${c === "All" ? WORK.length : WORK.filter((w) => w.cat === c).length}</i></button>`).join("")}</div>
