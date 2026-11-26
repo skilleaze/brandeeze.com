@@ -231,3 +231,4 @@ h1{font-weight:700;text-transform:none;letter-spacing:-.03em;line-height:1.02;fo
 .results li{font-size:clamp(16px,1.3vw,19px);font-weight:500}
 .deliver p.big{font-weight:500}
 .btn{padding:14px 24px;font-size:12px;letter-spacing:.08em;font-weight:600}
+.ticker span::after{width:5px!important;height:5px!important;border-radius:50%;background:var(--gold)}
