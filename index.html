@@ -174,8 +174,9 @@ main{transition:opacity .9s var(--ease) .15s}body.loading main,body.loading .nav
 .services{padding:clamp(80px,10vw,160px) 0}
 .services .head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(40px,5vw,72px)}
 .services .layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(24px,4vw,64px)}
-.services .spacer{position:relative;min-height:200px;padding-top:34vh}
-.services .detail{position:sticky;top:52vh;display:flex;flex-direction:column;gap:20px;max-width:440px}
+.services .spacer{position:relative;min-height:200px;padding-top:4vh}
+.services .detail{position:sticky;top:max(96px,calc(50vh - 300px));display:flex;flex-direction:column;gap:18px;max-width:440px}
+.services .detail .num{font-size:clamp(56px,6vw,96px)!important}
 .services .detail .num{font-size:clamp(90px,12vw,200px);font-weight:800;letter-spacing:-.06em;line-height:.8;color:transparent;-webkit-text-stroke:1.5px var(--gold)}
 .services .detail p{margin:0;font-size:clamp(17px,1.4vw,21px);line-height:1.45;color:var(--muted-2)}
 .tags{display:flex;flex-wrap:wrap;gap:8px}
@@ -234,6 +235,20 @@ main{transition:opacity .9s var(--ease) .15s}body.loading main,body.loading .nav
 @media (max-width:560px){.process .grid{grid-template-columns:1fr}}
 
 /* ---------- CTA / footer ---------- */
+/* ---------- Photography ---------- */
+.ph-band{position:relative;z-index:1;height:clamp(420px,78vh,820px);overflow:hidden;display:flex;align-items:flex-end;background:var(--noctis)}
+.ph-band .ph-img{position:absolute;inset:-12% 0;will-change:transform}
+.ph-band .ph-img img{width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block}
+.ph-band::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,var(--noctis) 0%,rgba(31,34,53,0) 28%,rgba(31,34,53,0) 55%,rgba(20,22,38,.92) 100%)}
+.ph-band .ph-cap{position:relative;z-index:2;padding-bottom:clamp(40px,6vw,88px);display:flex;flex-direction:column;gap:18px}
+.ph-band .ph-line{margin:0;font-size:clamp(38px,6.4vw,112px);font-weight:800;text-transform:uppercase;letter-spacing:-.04em;line-height:.92}
+.svc-ph{position:relative;width:min(100%,340px);aspect-ratio:4/5;border-radius:20px;overflow:hidden;border:1px solid rgba(227,164,25,.28);box-shadow:0 40px 80px -30px rgba(0,0,0,.7);background:#171a2b}
+.svc-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.08);transition:opacity 1.1s cubic-bezier(.2,.7,.1,1),transform 2.4s cubic-bezier(.2,.7,.1,1)}
+.svc-ph img.on{opacity:1;transform:scale(1)}
+.svc-ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(20,22,38,.6));pointer-events:none}
+.svc .th{display:none}
+@media (max-width:860px){.svc-ph{display:none}.svc{grid-template-columns:56px minmax(0,1fr) auto}.svc .th{display:block;grid-column:1/-1;order:5;height:0;border-radius:14px;overflow:hidden;transition:height .6s cubic-bezier(.2,.7,.1,1)}.svc.on .th{height:180px}.svc .th img{width:100%;height:100%;object-fit:cover;display:block}}
+.ph-band .ph-img{transform:translate3d(0,var(--py,0px),0)}
 .faq-s{position:relative;z-index:1;padding:clamp(90px,10vw,160px) 0 0}
 .faq-s .fqs{margin-top:clamp(32px,4vw,56px);background:rgba(24,26,44,.88);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:4px clamp(20px,3vw,40px)}
 .fq:last-child{border-bottom:0}
@@ -340,6 +355,15 @@ footer a:hover{color:var(--gold)}
     </div>
   </section>
 
+  <!-- PHOTO BAND -->
+  <section class="ph-band" aria-label="Brandeeze, based in Dubai">
+    <div class="ph-img"><img src="/assets/photos/city-dubai.webp" alt="Dubai skyline at blue hour, home of Brandeeze" width="1376" height="768" loading="lazy" decoding="async"></div>
+    <div class="wrap ph-cap">
+      <span class="label"><b>HQ</b> Dubai, UAE</span>
+      <p class="ph-line reveal">Built in Dubai.<br><span class="gold">Working worldwide.</span></p>
+    </div>
+  </section>
+
   <!-- SERVICES -->
   <section class="services" id="services" data-scene="2">
     <div class="wrap">
@@ -350,6 +374,7 @@ footer a:hover{color:var(--gold)}
       <div class="layout">
         <div class="spacer">
           <div class="detail" id="svcDetail">
+            <div class="svc-ph" id="svcPh" aria-hidden="true"></div>
             <span class="num" id="svcNum">01</span>
             <p id="svcDesc"></p>
             <div class="tags" id="svcTags"></div>
@@ -464,7 +489,8 @@ window.BZ={activeService:0,scene:0};
   document.getElementById("mq1").innerHTML=mq+mq;
   const mq2=["Brands people choose","One team","One strategy","One standard of craft"].map(t=>`<span>${t}</span>`).join("");
   document.getElementById("mq2").innerHTML=mq2+mq2+mq2;
-  document.getElementById("svcList").innerHTML=SERVICES.map((s,i)=>`<a class="svc" href="Service.dc.html?s=${s.k}" data-i="${i}" data-cursor="Explore"><span class="n">0${i+1}</span><span class="t">${s.name}</span><span class="go">${ARROW}</span></a>`).join("");
+  document.getElementById("svcList").innerHTML=SERVICES.map((s,i)=>`<a class="svc" href="Service.dc.html?s=${s.k}" data-i="${i}" data-cursor="Explore"><span class="n">0${i+1}</span><span class="t">${s.name}</span><span class="go">${ARROW}</span><span class="th"><img src="/assets/photos/svc-${s.k}.webp" alt="" loading="lazy" decoding="async"></span></a>`).join("");
+document.getElementById("svcPh").innerHTML=SERVICES.map((s,i)=>`<img src="/assets/photos/svc-${s.k}.webp" alt="${s.name}" width="928" height="1152" ${i?'loading="lazy" ':''}decoding="async">`).join("");
   document.getElementById("track").innerHTML=WORK.map((w,i)=>`<a class="card" href="/work/${w.s}" data-cursor="View"><div class="in"><div class="img">${w.img?`<img src="${w.img}" alt="${w.name}" loading="lazy">`:`<div class="art ${w.art}"></div><div class="met"><b>${w.m}</b><span>${w.l}</span></div>`}</div><span class="idx">0${i+1}</span><div class="cap"><span class="nm">${w.name}</span><span class="tg">${w.tags}</span></div></div></a>`).join("")+
     `<div class="card end"><a href="/work" data-cursor="All work"><span>All<br>work</span><span class="btn btn-gold" style="align-self:flex-start"><span class="fill"></span>View all ${ARROW.replace('<svg','<svg class="arr"')}</span></a><a href="/brandeeze-profile.pdf" target="_blank" rel="noopener" style="font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-bottom:2px solid var(--gold);padding-bottom:4px;align-self:flex-start">Company profile (PDF) ↗</a></div>`;
   // manifesto words
@@ -528,7 +554,7 @@ window.BZ={activeService:0,scene:0};
   let active=-1,hovering=false;
   function set(i){
     if(i===active)return;active=i;window.BZ.activeService=i;
-    rows.forEach((r,j)=>r.classList.toggle("on",j===i));
+    rows.forEach((r,j)=>r.classList.toggle("on",j===i));document.querySelectorAll("#svcPh img").forEach((im,j)=>im.classList.toggle("on",j===i));
     const s=SERVICES[i];num.textContent="0"+(i+1);desc.textContent=s.desc;
     tags.innerHTML=s.tags.map(t=>`<span>${t}</span>`).join("");
     [num,desc,tags].forEach(e=>{e.animate([{opacity:0,transform:"translateY(16px)"},{opacity:1,transform:"none"}],{duration:RM?1:600,easing:"cubic-bezier(.2,.7,.1,1)"})});
@@ -542,6 +568,11 @@ window.BZ={activeService:0,scene:0};
     set(best);
   },{passive:true});
 })();
+
+/* ---------- Photo band parallax ---------- */
+(function(){const b=document.querySelector(".ph-band");if(!b||RM)return;const im=b.querySelector(".ph-img");let tk=0;
+  const up=()=>{tk=0;const r=b.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;const p=(r.top+r.height/2-innerHeight/2)/innerHeight;im.style.setProperty("--py",(p*-90).toFixed(1)+"px")};
+  addEventListener("scroll",()=>{if(!tk){tk=1;requestAnimationFrame(up)}},{passive:true});up()})();
 
 /* ---------- Scroll systems ---------- */
 (function(){

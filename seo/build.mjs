@@ -109,6 +109,11 @@ const ORG = { "@type": ["ProfessionalService", "Organization"], "@id": SITE + "/
   contactPoint: { "@type": "ContactPoint", contactType: "sales", email: "hello@brandeeze.com", availableLanguage: ["English", "Arabic"] },
   address: { "@type": "PostalAddress", addressLocality: "Dubai", addressCountry: "AE" } };
 const webPage = (url, name, desc, about) => ({ "@type": "WebPage", "@id": SITE + url + "#webpage", url: SITE + url, name, description: desc, inLanguage: "en", isPartOf: { "@type": "WebSite", "@id": SITE + "/#website", name: "Brandeeze", url: SITE + "/" }, publisher: { "@id": SITE + "/#org" }, dateModified: TODAY, ...(about ? { about } : {}) });
+// Photography (generated in Magnific for Brandeeze)
+const CITY_PH = new Set(["dubai", "abu-dhabi", "riyadh", "doha", "london", "new-york", "singapore", "toronto"]);
+const GROUP_PH = { agency: "branding", brand: "branding", video: "video", search: "performance", social: "social", automation: "automation", web: "web", data: "performance" };
+const withPh = (hero, city) => CITY_PH.has(city.slug) ? hero.replace(/^<section class="hero /, `<section style="--ph:url('/assets/photos/city-${city.slug}.webp')" class="hero has-ph `) : hero;
+const svcFig = (g, alt) => `<figure class="hero-fig"><img src="/assets/photos/svc-${GROUP_PH[g]}.webp" alt="${esc(alt)}" width="928" height="1152" fetchpriority="high"></figure>`;
 const bars = () => `<div class="bars" aria-hidden="true">${"<i></i>".repeat(6)}</div>`;
 
 /* ---------------- service × city page ---------------- */
@@ -216,6 +221,7 @@ function servicePage(svc, city) {
     <div><dt>Working together</dt><dd>${esc(`${ctx.tz.short}; quotes in ${co.cur[0] === "USD" ? "USD" : co.cur[0] + " or USD"}; content in ${list(co.lang.slice(0, 2))}.`)}</dd></div>
     <div><dt>Proof</dt><dd><a class="u" href="/work/${proofs[0].slug}">${esc(proofs[0].client)}</a>: ${esc(proofs[0].headline)}.</dd></div>
   </dl></div></div></section>`;
+  hero = withPh(hero, city);
   return { url, html: head({ title, desc, url, schema, og: `/assets/og/city-${city.slug}.jpg` }) + hero + quick + body + cta + foot() };
 }
 
@@ -230,13 +236,13 @@ function cityHub(city) {
   const groups = GROUP_ORDER.map((gk) => [GROUPS[gk].label, SERVICES.filter((s) => s.group === gk)]);
   const html = head({ title, desc, url, og: `/assets/og/city-${city.slug}.jpg`, schema: { "@context": "https://schema.org", "@graph": [ORG, crumbSchema(crumbItems),
       { "@type": "CollectionPage", name: title, url: SITE + url, dateModified: TODAY, about: { "@type": "City", name: city.name } }] } }) +
-    `<section class="hero h-giant"><div class="ghost" aria-hidden="true">${esc(city.name)}</div><div class="wrap">${crumbs(crumbItems)}<span class="label">${esc(cap(co.short))} · ${esc(co.region)}</span><h1>Marketing agency in ${esc(city.name)}</h1><div class="grid2 end"><p class="lead">${esc(`Branding, content, SEO, paid media, social, automation and web for ${city.name} businesses, delivered by one team.`)}</p><div class="ctas"><a class="btn btn-gold" href="/Contact.dc.html">Get a free consultation${ARROW}</a></div></div></div></section>
+    withPh(`<section class="hero h-giant"><div class="ghost" aria-hidden="true">${esc(city.name)}</div><div class="wrap">${crumbs(crumbItems)}<span class="label">${esc(cap(co.short))} · ${esc(co.region)}</span><h1>Marketing agency in ${esc(city.name)}</h1><div class="grid2 end"><p class="lead">${esc(`Branding, content, SEO, paid media, social, automation and web for ${city.name} businesses, delivered by one team.`)}</p><div class="ctas"><a class="btn btn-gold" href="/Contact.dc.html">Get a free consultation${ARROW}</a></div></div></div></section>
 <section class="sec dark2"><div class="wrap grid2"><div><span class="label">${esc(city.name)}</span><h2 class="h2">Marketing in ${esc(city.name)}</h2></div><div class="prose"><p>${esc(`${city.name} is ${city.angle}. ${cap(co.short)} is ${co.note}.`)}</p><p>${esc(co.search)} ${esc(ctx.tz.long)}</p></div></div></section>
 <section class="sec light"><div class="wrap"><span class="label">Services</span><h2 class="h2">Everything we offer in ${esc(city.name)}</h2>
 <div class="hub">${groups.map(([gl, ss]) => `<div><h3>${esc(gl)}</h3><ul>${ss.map((s) => `<li><a href="/${city.slug}/${s.slug}">${esc(s.name)} in ${esc(city.name)}</a></li>`).join("")}</ul></div>`).join("")}</div></div></section>
 <section class="sec dark2"><div class="wrap"><span class="label">Industries</span><h2 class="h2">Sectors we know in ${esc(city.name)}</h2><div class="cards">${city.ind.map((k) => `<div class="card"><h3>${esc(INDUSTRIES[k].label)}</h3><p>${esc(cap(INDUSTRIES[k].buyer))}.</p></div>`).join("")}</div></div></section>
 <section class="sec light"><div class="wrap"><span class="label">Nearby</span><h2 class="h2">Other locations</h2><ul class="links-list cols">${ctx.nearby.map((c) => `<li><a href="/${c.slug}">Marketing agency in ${esc(c.name)}${ARROW}</a></li>`).join("")}<li><a href="/locations">All locations${ARROW}</a></li></ul></div></section>
-<section class="sec cta"><div class="wrap"><span class="label">Next step</span><h2 class="h-xl">Your brand is next.</h2><div class="ctas"><a class="btn btn-gold" href="/Contact.dc.html">Start a project${ARROW}</a></div></div></section>` + foot();
+<section class="sec cta"><div class="wrap"><span class="label">Next step</span><h2 class="h-xl">Your brand is next.</h2><div class="ctas"><a class="btn btn-gold" href="/Contact.dc.html">Start a project${ARROW}</a></div></div></section>`, city) + foot();
   return { url, html };
 }
 
@@ -250,7 +256,7 @@ function serviceHub(svc) {
   const byRegion = REGION_ORDER.map((rg) => [rg, CITIES.filter((c) => COUNTRIES[c.cc].region === rg)]).filter(([, cs]) => cs.length);
   const html = head({ title, desc, url, og: `/assets/og/svc-${svc.slug}.jpg`, schema: { "@context": "https://schema.org", "@graph": [ORG, crumbSchema(crumbItems), webPage(url, title, desc),
       { "@type": "Service", name: svc.name, serviceType: svc.name, url: SITE + url, provider: { "@id": SITE + "/#org" }, areaServed: CITIES.map((c) => ({ "@type": "City", name: c.name })) }] } }) +
-    `<section class="hero h-split"><div class="wrap">${crumbs(crumbItems)}<div class="grid2 end"><div><span class="label">${esc(g.label)}</span><h1>${esc(svc.name)}</h1><p class="lead">${esc(plain(svc.leads[1] || svc.leads[0]))}</p><div class="ctas"><a class="btn btn-gold" href="/Contact.dc.html">Get a free consultation${ARROW}</a></div></div><div class="hero-side">${bars()}</div></div></div></section>
+    `<section class="hero h-split"><div class="wrap">${crumbs(crumbItems)}<div class="grid2 end"><div><span class="label">${esc(g.label)}</span><h1>${esc(svc.name)}</h1><p class="lead">${esc(plain(svc.leads[1] || svc.leads[0]))}</p><div class="ctas"><a class="btn btn-gold" href="/Contact.dc.html">Get a free consultation${ARROW}</a></div></div>${svcFig(svc.group, svc.name)}</div></div></section>
 <section class="sec dark2"><div class="wrap grid2"><div><span class="label">Overview</span><h2 class="h2">What's included</h2><p class="muted">${esc(plain(svc.what[0]))}</p></div><ol class="deliver">${svc.deliver.map((d, i) => `<li><span class="n">0${i + 1}</span><div><h3>${esc(plain(d[0]))}</h3><p>${esc(plain(d[1]))}</p></div></li>`).join("")}</ol></div></section>
 ${(() => { const cs = WORK.filter((w) => w.groups.includes(svc.group) || (svc.group === "agency" && w.featured) || (svc.group === "data" && w.groups.includes("search")) || (svc.group === "video" && w.groups.some((g) => g === "brand" || g === "social"))).sort((x, y) => (y.images.length ? 2 : 0) + (y.featured ? 1 : 0) - ((x.images.length ? 2 : 0) + (x.featured ? 1 : 0))).slice(0, 6); return cs.length ? `<section class="sec light"><div class="wrap"><span class="label">Case studies</span><h2 class="h2">${esc(svc.name)}: proof, not promises</h2><div class="wgrid three">${cs.map(workCard).join("")}</div><p class="muted" style="margin-top:24px"><a class="u" href="/work">See all ${WORK.length} case studies</a></p></div></section>` : ""; })()}
 <section class="sec dark2"><div class="wrap"><span class="label">Locations</span><h2 class="h2">${esc(svc.name)} by city</h2><div class="hub">${byRegion.map(([rg, cs]) => `<div><h3>${esc(rg)}</h3><ul>${cs.map((c) => `<li><a href="/${c.slug}/${svc.slug}">${esc(svc.name)} in ${esc(c.name)}</a></li>`).join("")}</ul></div>`).join("")}</div></div></section>
