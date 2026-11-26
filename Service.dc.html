@@ -65,9 +65,9 @@ a:hover{color:#E3A419}
         </sc-for>
       </div>
     </div>
-    <h1 style="margin: 0; font-size: clamp(52px,10vw,168px); line-height: 0.88; font-weight: 800; letter-spacing: -0.035em; text-transform: uppercase; overflow: hidden;">{{ title }}</h1>
+    <h1 style="margin: 0; font-size: clamp(38px,5.4vw,84px); line-height: 1; font-weight: 700; letter-spacing: -0.035em; overflow: hidden;">{{ title }}</h1>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 32px clamp(32px,6vw,96px); align-items: end; border-top: 1px solid var(--rule-on-inverse); padding-top: clamp(24px,3vw,40px);">
-      <p style="margin: 0; font-size: clamp(22px,2.4vw,36px); line-height: 1.15; font-weight: 600; letter-spacing: -0.01em; text-wrap: pretty;">{{ s.lead }}</p>
+      <p style="margin: 0; font-size: clamp(18px,1.6vw,24px); line-height: 1.4; font-weight: 500; letter-spacing: -0.01em; text-wrap: pretty;">{{ s.lead }}</p>
       <div style="display: flex; flex-direction: column; gap: 24px;">
         <p style="margin: 0; font-size: 18px; line-height: 1.35; color: var(--text-on-inverse-secondary);">{{ s.intro }}</p>
         <div style="display: flex; gap: 12px; flex-wrap: wrap;">
@@ -92,7 +92,7 @@ a:hover{color:#E3A419}
     <div style="grid-column: span 3; min-width: 0; border-top: 2px solid var(--rule-strong);">
       <sc-for list="{{ s.deliver }}" as="d" hint-placeholder-count="5">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 8px 32px; padding: clamp(20px,2.4vw,32px) 0; border-bottom: 1px solid var(--rule);">
-          <span style="font-size: clamp(22px,2.2vw,32px); font-weight: 800; letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.05;">{{ d.0 }}</span>
+          <span style="font-size: clamp(18px,1.6vw,24px); font-weight: 600; letter-spacing: -0.01em; line-height: 1.2;">{{ d.0 }}</span>
           <span style="font-size: 17px; line-height: 1.35; color: var(--text-secondary); text-wrap: pretty;">{{ d.1 }}</span>
         </div>
       </sc-for>
@@ -104,14 +104,14 @@ a:hover{color:#E3A419}
   <div style="max-width: 1440px; margin: 0 auto; padding: clamp(72px,10vw,152px) clamp(20px,4vw,56px);">
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: clamp(24px,4vw,64px); margin-bottom: clamp(40px,5vw,72px);">
       <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.SectionLabel" number="02" hint-size="160px,16px">How it runs</x-import>
-      <h2 style="grid-column: span 3; margin: 0; font-size: clamp(36px,5vw,80px); line-height: 0.95; font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase;">{{ s.processTitle }}</h2>
+      <h2 style="grid-column: span 3; margin: 0; font-size: clamp(28px,3.2vw,48px); line-height: 1.05; font-weight: 600; letter-spacing: -0.03em;">{{ s.processTitle }}</h2>
     </div>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: clamp(24px,3vw,40px);">
       <sc-for list="{{ steps }}" as="p" hint-placeholder-count="4">
         <div style="display: flex; flex-direction: column; gap: 14px; border-top: 1px solid var(--rule-strong); padding-top: 24px; position: relative;">
           <span style="position: absolute; top: -3px; left: 0; height: 6px; width: {{ p.w }}; background: var(--bz-marigold);"></span>
           <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-label);">{{ p.num }}</span>
-          <h3 style="margin: 0; font-size: 24px; font-weight: 800; text-transform: uppercase;">{{ p.title }}</h3>
+          <h3 style="margin: 0; font-size: 19px; font-weight: 600;">{{ p.title }}</h3>
           <p style="margin: 0; font-size: 16px; line-height: 1.35; color: var(--text-secondary);">{{ p.text }}</p>
         </div>
       </sc-for>
@@ -146,7 +146,7 @@ a:hover{color:#E3A419}
     <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: clamp(32px,4vw,56px);">
       <div style="display: flex; flex-direction: column; gap: 20px;">
         <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.SectionLabel" number="04" hint-size="160px,16px">Case studies</x-import>
-        <h2 style="margin: 0; font-size: clamp(36px,5vw,80px); line-height: 0.95; font-weight: 800; letter-spacing: -0.03em; text-transform: uppercase;">Proof, not promises.</h2>
+        <h2 style="margin: 0; font-size: clamp(28px,3.2vw,48px); line-height: 1.05; font-weight: 600; letter-spacing: -0.03em;">Proof, not promises.</h2>
       </div>
       <a href="/work" style="font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding-bottom: 4px; border-bottom: 2px solid var(--bz-marigold);">All case studies</a>
     </div>
@@ -155,7 +155,7 @@ a:hover{color:#E3A419}
         <a href="{{ c.href }}" style="display: flex; flex-direction: column; border-radius: 16px; overflow: hidden; background: var(--bz-ground); color: var(--bz-noctis);">
           <div style="position: relative; aspect-ratio: 16 / 10; background: {{ c.bg }}; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px 22px; color: var(--bz-white);">
             <span style="position: absolute; top: 16px; left: 18px; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 6px 10px; border-radius: 999px; background: rgba(20,22,36,.6);">{{ c.cat }}</span>
-            <span style="font-size: clamp(40px,4.6vw,60px); font-weight: 800; letter-spacing: -0.04em; line-height: 0.9; opacity: {{ c.mo }};">{{ c.metric }}</span>
+            <span style="font-size: clamp(32px,3.2vw,46px); font-weight: 600; letter-spacing: -0.03em; line-height: 0.95; opacity: {{ c.mo }};">{{ c.metric }}</span>
             <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bz-marigold-300); margin-top: 6px; opacity: {{ c.mo }};">{{ c.label }}</span>
           </div>
           <div style="padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 8px;">
@@ -173,17 +173,17 @@ a:hover{color:#E3A419}
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 24px;">
       <div style="display: flex; flex-direction: column; gap: 24px;">
         <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.SectionLabel" number="05" inverse="{{ true }}" hint-size="160px,16px">Start here</x-import>
-        <h2 style="margin: 0; font-size: clamp(44px,7vw,112px); line-height: 0.9; font-weight: 800; letter-spacing: -0.035em; text-transform: uppercase;">Let's talk<br><span style="color: var(--bz-marigold);">{{ s.short }}.</span></h2>
+        <h2 style="margin: 0; font-size: clamp(36px,5vw,76px); line-height: 1; font-weight: 700; letter-spacing: -0.035em;">Let's talk<br><span style="color: var(--bz-marigold);">{{ s.short }}.</span></h2>
       </div>
       <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; gap: 20px;">
-        <a href="mailto:hello@brandeeze.com" style="font-size: clamp(22px,2.4vw,36px); font-weight: 600;">hello@brandeeze.com</a>
+        <a href="mailto:hello@brandeeze.com" style="font-size: clamp(18px,1.7vw,24px); font-weight: 500;">hello@brandeeze.com</a>
         <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Button" variant="primary" size="lg" onClick="{{ goContact }}" hint-size="200px,56px">Send a brief</x-import>
       </div>
     </div>
     <a href="{{ next.href }}" style="display: flex; justify-content: space-between; align-items: center; gap: 24px; border-top: 1px solid var(--rule-on-inverse); border-bottom: 1px solid var(--rule-on-inverse); padding: clamp(24px,3vw,40px) 0;">
       <span style="display: flex; flex-direction: column; gap: 10px;">
         <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-on-inverse-secondary);">Next service · {{ next.num }}</span>
-        <span style="font-size: clamp(28px,4vw,64px); font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; line-height: 1;">{{ next.name }}</span>
+        <span style="font-size: clamp(24px,2.6vw,40px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.05;">{{ next.name }}</span>
       </span>
       <x-import component-from-global-scope="BrandeezDesignSystem_fbe106.Icon" name="arrow-right" size="40" strokeWidth="1.5" hint-size="40px,40px"></x-import>
     </a>
