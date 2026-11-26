@@ -250,7 +250,7 @@ function cityHub(city) {
 function serviceHub(svc) {
   const url = `/services/${svc.slug}`, g = GROUPS[svc.group];
   const title = `${svc.name} | Brandeeze`;
-  const plain = (s) => s.replace(/\{city\}/g, "your market").replace(/\{country\}/g, "your country").replace(/\{cur\}/g, "your currency").replace(/\{social\}/g, "the platforms your audience uses").replace(/\{region\}/g, "your region").replace(/ in your market/g, "");
+  const plain = (s) => s.replace(/ \{city\} (businesses|brands|companies|teams|buyers|customers|shoppers)/g, " $1").replace(/\{city\}'s /g, "your ").replace(/\{city\}/g, "your market").replace(/\{country\}/g, "your country").replace(/\{cur\}/g, "your currency").replace(/\{social\}/g, "the platforms your audience uses").replace(/\{region\}/g, "your region").replace(/ in your market/g, "");
   const desc = trim(plain(svc.leads[0]) + " Available in " + CITIES.length + " cities worldwide.", 158);
   const crumbItems = [["Home", "/"], ["Services", "/#services"], [svc.name, url]];
   const byRegion = REGION_ORDER.map((rg) => [rg, CITIES.filter((c) => COUNTRIES[c.cc].region === rg)]).filter(([, cs]) => cs.length);
